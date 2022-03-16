@@ -1,23 +1,30 @@
 package com.shakiv_husain.disneywatch.network;
 
-import static com.shakiv_husain.disneywatch.constants.ApiConstants.API_KEY;
 import static com.shakiv_husain.disneywatch.constants.ApiConstants.API_KEY_;
+import static com.shakiv_husain.disneywatch.constants.ApiConstants.MOVIE_DETAIL;
+import static com.shakiv_husain.disneywatch.constants.ApiConstants.MOVIE_ID;
 import static com.shakiv_husain.disneywatch.constants.ApiConstants.PAGE;
 import static com.shakiv_husain.disneywatch.constants.ApiConstants.POPULAR_MOVIES;
 
-import com.shakiv_husain.disneywatch.models.popular.MoviesResponse;
+import com.shakiv_husain.disneywatch.models.movie_details.MovieDetailsResponse;
+import com.shakiv_husain.disneywatch.models.popular_movie.PopularMoviesResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiServices {
 
 
     @GET(POPULAR_MOVIES)
-    Call<MoviesResponse> getPopularMovies(@Query(PAGE) int page,
-                                          @Query(API_KEY_) String api_key);
+    Call<PopularMoviesResponse> getPopularMovies(
+            @Query(PAGE) int page,
+            @Query(API_KEY_) String api_key);
 
-
+    @GET(MOVIE_DETAIL)
+    Call<MovieDetailsResponse> getMovieDetails(
+            @Path(MOVIE_ID) String movie_id,
+            @Query(API_KEY_) String api_key);
 
 }

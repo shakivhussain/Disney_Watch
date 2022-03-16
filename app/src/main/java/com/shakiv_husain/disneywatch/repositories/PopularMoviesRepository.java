@@ -6,12 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.shakiv_husain.disneywatch.models.popular.MoviesResponse;
+import com.shakiv_husain.disneywatch.models.popular_movie.PopularMoviesResponse;
 import com.shakiv_husain.disneywatch.network.ApiClient;
 import com.shakiv_husain.disneywatch.network.ApiServices;
 import com.shakiv_husain.disneywatch.util.Log;
-
-import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,29 +26,27 @@ public class PopularMoviesRepository {
         apiServices = ApiClient.getRetrofit().create(ApiServices.class);
     }
 
-    public LiveData<MoviesResponse> getPopularMovies(int page) {
-        MutableLiveData<MoviesResponse> popularMovies = new MutableLiveData<>();
+    public LiveData<PopularMoviesResponse> getPopularMovies(int page) {
+        MutableLiveData<PopularMoviesResponse> popularMovies = new MutableLiveData<>();
 
-        apiServices.getPopularMovies(page, API_KEY).enqueue(new Callback<MoviesResponse>() {
+        apiServices.getPopularMovies(page, API_KEY).enqueue(new Callback<PopularMoviesResponse>() {
             @Override
-            public void onResponse(@NonNull Call<MoviesResponse> call, @NonNull Response<MoviesResponse> response) {
-                try {
-                    Log.d(TAG, "onResponse: Api Call ::" + call.request().url());
-                    if (response.isSuccessful()) {
-                        popularMovies.postValue(response.body());
-                    } else {
-                        assert response.errorBody() != null;
-                        Log.i(TAG, response.errorBody().string());
-                        popularMovies.postValue(null);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+            public void onResponse(@NonNull Call<PopularMoviesResponse> call, @NonNull Response<PopularMoviesResponse> response) {
+                Log.d(TAG, "onResponse: Api Call ::" + call.request().url());
+                if (response.isSuccessful()) {
+                    popularMovies.postValue(response.body());
+                } else {
+                    assert response.errorBody() != null;
+                    Log.i(TAG, "Error" + response.errorBody());
+                    popularMovies.postValue(null);
                 }
+
             }
 
             @Override
-            public void onFailure(@NonNull Call<MoviesResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<PopularMoviesResponse> call, @NonNull Throwable t) {
                 Log.e(TAG, t.getMessage());
+                popularMovies.postValue(null);
             }
         });
 
