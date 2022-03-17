@@ -1,6 +1,6 @@
 package com.shakiv_husain.disneywatch.repositories;
 
-import static com.shakiv_husain.disneywatch.constants.ApiConstants.API_KEY;
+import static com.shakiv_husain.disneywatch.util.constants.ApiConstants.API_KEY;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;

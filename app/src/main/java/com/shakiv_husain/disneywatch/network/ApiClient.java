@@ -1,7 +1,7 @@
 package com.shakiv_husain.disneywatch.network;
 
-import static com.shakiv_husain.disneywatch.constants.ApiConstants.BASE_URL;
-import static com.shakiv_husain.disneywatch.constants.AppConstants.TIME_OUT;
+import static com.shakiv_husain.disneywatch.util.constants.ApiConstants.BASE_URL;
+import static com.shakiv_husain.disneywatch.util.constants.AppConstants.TIME_OUT;
 
 import java.util.concurrent.TimeUnit;
 

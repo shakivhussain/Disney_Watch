@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class MoviesModel {
+public class MovieModel {
 
     @SerializedName("adult")
     @Expose
@@ -45,7 +45,7 @@ public class MoviesModel {
     public boolean video;
     @SerializedName("vote_average")
     @Expose
-    public float voteAverage;
+    public String voteAverage;
     @SerializedName("vote_count")
     @Expose
     public int voteCount;
@@ -99,7 +99,7 @@ public class MoviesModel {
         return video;
     }
 
-    public float getVoteAverage() {
+    public String getVoteAverage() {
         return voteAverage;
     }
 

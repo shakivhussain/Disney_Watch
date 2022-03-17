@@ -13,7 +13,7 @@ public class PopularMoviesResponse {
     public int page;
     @SerializedName("results")
     @Expose
-    public List<MoviesModel> moviesModels = null;
+    public List<MovieModel> movieModels = null;
     @SerializedName("total_pages")
     @Expose
     public int totalPages;
@@ -26,8 +26,8 @@ public class PopularMoviesResponse {
         return page;
     }
 
-    public List<MoviesModel> getResults() {
-        return moviesModels;
+    public List<MovieModel> getMovies() {
+        return movieModels;
     }
 
     public int getTotalPages() {
@@ -43,7 +43,7 @@ public class PopularMoviesResponse {
     public String toString() {
         return "MoviesResponse{" +
                 "page=" + page +
-                ", results=" + moviesModels +
+                ", results=" + movieModels +
                 ", totalPages=" + totalPages +
                 ", totalResults=" + totalResults +
                 '}';

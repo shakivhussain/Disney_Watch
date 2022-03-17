@@ -1,4 +1,4 @@
-package com.shakiv_husain.disneywatch.constants;
+package com.shakiv_husain.disneywatch.util.constants;
 
 public class AppConstants {
 

@@ -1,10 +1,10 @@
 package com.shakiv_husain.disneywatch.network;
 
-import static com.shakiv_husain.disneywatch.constants.ApiConstants.API_KEY_;
-import static com.shakiv_husain.disneywatch.constants.ApiConstants.MOVIE_DETAIL;
-import static com.shakiv_husain.disneywatch.constants.ApiConstants.MOVIE_ID;
-import static com.shakiv_husain.disneywatch.constants.ApiConstants.PAGE;
-import static com.shakiv_husain.disneywatch.constants.ApiConstants.POPULAR_MOVIES;
+import static com.shakiv_husain.disneywatch.util.constants.ApiConstants.API_KEY_;
+import static com.shakiv_husain.disneywatch.util.constants.ApiConstants.MOVIE_DETAIL;
+import static com.shakiv_husain.disneywatch.util.constants.ApiConstants.MOVIE_ID;
+import static com.shakiv_husain.disneywatch.util.constants.ApiConstants.PAGE;
+import static com.shakiv_husain.disneywatch.util.constants.ApiConstants.POPULAR_MOVIES;
 
 import com.shakiv_husain.disneywatch.models.movie_details.MovieDetailsResponse;
 import com.shakiv_husain.disneywatch.models.popular_movie.PopularMoviesResponse;

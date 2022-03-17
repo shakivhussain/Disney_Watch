@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="movie"
+            type="com.shakiv_husain.disneywatch.models.popular_movie.MovieModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_4sdp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/imageMovie" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/background_movie_item"
+            android:paddingBottom="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvTitle" />
+
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imageMovie"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:imageURL="@{movie.posterPath}"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius="@dimen/_4sdp" />
+
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:ellipsize="end"
+            android:text="@{movie.title}"
+            android:fontFamily="@font/ubuntu_medium"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:paddingTop="@dimen/_8sdp"
+            android:textColor="@color/colorTextIcon"
+            android:textColorHint="@color/colorTextPrimary"
+            android:textSize="@dimen/_13sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageMovie"
+            app:layout_constraintTop_toTopOf="@id/imageMovie"
+            tools:text="The King" />
+
+
+        <TextView
+            android:id="@+id/releaseDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:fontFamily="@font/ubuntu_regular"
+            android:includeFontPadding="false"
+            android:text='@{"Start On : "+movie.releaseDate}'
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+            app:layout_constraintStart_toStartOf="@+id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            tools:text="Start On : 02/07/2000 " />
+
+
+        <TextView
+            android:id="@+id/tvRating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:drawableStart="@drawable/ic_star_rate"
+            android:fontFamily="@font/ubuntu_regular"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:text='@{" "+movie.voteAverage}'
+            android:textColor="@color/colorTextOther"
+            android:textSize="@dimen/_12sdp"
+            app:drawableTint="@color/colorTextOther"
+            app:layout_constraintEnd_toEndOf="@id/tvTitle"
+            app:layout_constraintStart_toStartOf="@id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@id/releaseDate"
+            tools:text=" 6.6" />
+
+
+        <TextView
+            android:id="@+id/tvVote"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:drawableStart="@drawable/ic_like"
+            android:fontFamily="@font/ubuntu_regular"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:text='@{" "+ movie.voteCount+""}'
+            android:textColor="@color/colorThemeExtra"
+            android:textSize="@dimen/_10sdp"
+            app:drawableTint="@color/colorThemeExtra"
+            app:layout_constraintEnd_toEndOf="@id/tvTitle"
+            app:layout_constraintStart_toStartOf="@id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvRating"
+            tools:text=" 1234" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

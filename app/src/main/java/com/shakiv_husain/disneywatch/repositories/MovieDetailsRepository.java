@@ -1,6 +1,6 @@
 package com.shakiv_husain.disneywatch.repositories;
 
-import static com.shakiv_husain.disneywatch.constants.ApiConstants.API_KEY;
+import static com.shakiv_husain.disneywatch.util.constants.ApiConstants.API_KEY;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
