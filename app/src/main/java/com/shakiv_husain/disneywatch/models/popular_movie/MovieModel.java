@@ -18,7 +18,7 @@ public class MovieModel {
     public List<Integer> genreIds = null;
     @SerializedName("id")
     @Expose
-    public int id;
+    public String id;
     @SerializedName("original_language")
     @Expose
     public String originalLanguage;
@@ -63,7 +63,7 @@ public class MovieModel {
         return genreIds;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

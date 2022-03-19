@@ -1,7 +1,9 @@
 package com.shakiv_husain.disneywatch.activities;
 
+import static com.shakiv_husain.disneywatch.util.constants.AppConstants.ID;
+
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
 
                 if (currentPage < totalPage) {
                     currentPage += 1;
-                    Log.d(TAG,currentPage+" Total = "+totalPage);
+                    Log.d(TAG, currentPage + " Total = " + totalPage);
                     getPopulerMoviesList();
                 }
             }
@@ -112,7 +114,8 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
 
     @Override
     public void onTvShowClicked(MovieModel movieModel) {
-
-        Toast.makeText(this, "Ttle" + movieModel.getTitle(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
+        intent.putExtra(ID, movieModel.getId());
+        startActivity(intent);
     }
 }

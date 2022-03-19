@@ -16,6 +16,7 @@
     <color name="button_color">#212121</color>
     <color name="colorAccent">#0097FB</color>
     <color name="colorTextIcon">#FFFFFFFF</color>
+    <color name="fade_color">#50FFFFFF</color>
     <color name="colorPrimaryLight">#1E2746</color>
     <color name="colorTextPrimary">#CBD5ED</color>
     <color name="colorTextSecondary">#4A5B82</color>

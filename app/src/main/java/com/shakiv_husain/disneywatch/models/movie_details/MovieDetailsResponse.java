@@ -10,79 +10,79 @@ public class MovieDetailsResponse {
 
     @SerializedName("adult")
     @Expose
-    public boolean adult;
+    private boolean adult;
     @SerializedName("backdrop_path")
     @Expose
-    public String backdropPath;
+    private String backdropPath;
     @SerializedName("belongs_to_collection")
     @Expose
-    public Object belongsToCollection;
+    private Object belongsToCollection;
     @SerializedName("budget")
     @Expose
-    public int budget;
+    private int budget;
     @SerializedName("genres")
     @Expose
-    public List<Genre> genres = null;
+    private List<Genre> genres = null;
     @SerializedName("homepage")
     @Expose
-    public String homepage;
+    private String homepage;
     @SerializedName("id")
     @Expose
-    public int id;
+    private int id;
     @SerializedName("imdb_id")
     @Expose
-    public String imdbId;
+    private String imdbId;
     @SerializedName("original_language")
     @Expose
-    public String originalLanguage;
+    private String originalLanguage;
     @SerializedName("original_title")
     @Expose
-    public String originalTitle;
+    private String originalTitle;
     @SerializedName("overview")
     @Expose
-    public String overview;
+    private String overview;
     @SerializedName("popularity")
     @Expose
-    public float popularity;
+    private float popularity;
     @SerializedName("poster_path")
     @Expose
-    public String posterPath;
+    private String posterPath;
     @SerializedName("production_companies")
     @Expose
-    public List<ProductionCompany> productionCompanies = null;
+    private List<ProductionCompany> productionCompanies = null;
     @SerializedName("production_countries")
     @Expose
-    public List<ProductionCountry> productionCountries = null;
+    private List<ProductionCountry> productionCountries = null;
     @SerializedName("release_date")
     @Expose
-    public String releaseDate;
+    private String releaseDate;
     @SerializedName("revenue")
     @Expose
-    public int revenue;
+    private int revenue;
     @SerializedName("runtime")
     @Expose
-    public int runtime;
+    private int runtime;
     @SerializedName("spoken_languages")
     @Expose
-    public List<SpokenLanguage> spokenLanguages = null;
+    private List<SpokenLanguage> spokenLanguages = null;
     @SerializedName("status")
     @Expose
-    public String status;
+    private String status;
     @SerializedName("tagline")
     @Expose
-    public String tagline;
+    private String tagline;
     @SerializedName("title")
     @Expose
-    public String title;
+    private String title;
     @SerializedName("video")
     @Expose
-    public boolean video;
+    private boolean video;
     @SerializedName("vote_average")
     @Expose
-    public float voteAverage;
+    private float voteAverage;
     @SerializedName("vote_count")
     @Expose
-    public int voteCount;
+    private int voteCount;
 
 
     public boolean isAdult() {
