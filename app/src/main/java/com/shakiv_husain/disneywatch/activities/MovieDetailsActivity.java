@@ -21,14 +21,17 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.shakiv_husain.disneywatch.R;
 import com.shakiv_husain.disneywatch.adapter.SliderAdapter;
+import com.shakiv_husain.disneywatch.adapter.YoutubeVideosAdapter;
 import com.shakiv_husain.disneywatch.databinding.ActivityMovieDetailsBinding;
+import com.shakiv_husain.disneywatch.models.Video.VideoModel;
+import com.shakiv_husain.disneywatch.models.Video.VideoResponse;
 import com.shakiv_husain.disneywatch.models.images.Backdrop;
 import com.shakiv_husain.disneywatch.models.images.ImageResponse;
 import com.shakiv_husain.disneywatch.models.movie_details.MovieDetailsResponse;
 import com.shakiv_husain.disneywatch.viewmodel.MovieDetailsViewModel;
 import com.shakiv_husain.disneywatch.viewmodel.MovieImagesViewModel;
+import com.shakiv_husain.disneywatch.viewmodel.MovieVideosViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,9 +42,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private static final String TAG = MovieDetailsActivity.class.getName();
     private MovieDetailsViewModel movieDetailsViewModel;
     private MovieImagesViewModel movieImagesViewModel;
+    private MovieVideosViewModel movieVideosViewModel;
     private ActivityMovieDetailsBinding movieDetailsBinding;
-    private SliderAdapter sliderAdapter;
-    private List<String> imageList;
 
     Timer timer;
     final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
@@ -53,9 +55,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         movieDetailsBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_details);
 
-
         initialization();
-
 
     }
 
@@ -71,8 +71,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         // View Model
         movieDetailsViewModel = new ViewModelProvider(this).get(MovieDetailsViewModel.class);
         movieImagesViewModel = new ViewModelProvider(this).get(MovieImagesViewModel.class);
-
-        imageList = new ArrayList<>();
+        movieVideosViewModel = new ViewModelProvider(this).get(MovieVideosViewModel.class);
 
         movieDetailsBinding.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,9 +82,40 @@ public class MovieDetailsActivity extends AppCompatActivity {
             }
         });
 
+
         getMovieDetails(id);
         setMovieImages(id);
+        setVideos(id);
 
+    }
+
+    private void setVideos(String movie_id) {
+
+
+        movieVideosViewModel.getVideos(movie_id).observe(this, new Observer<VideoResponse>() {
+            @Override
+            public void onChanged(VideoResponse videoResponse) {
+                setVideoAdapter(videoResponse.getResults());
+            }
+        });
+
+
+        movieDetailsBinding.videosViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                setCurrentSliderIndicator(movieDetailsBinding.videosIndicator, position);
+            }
+        });
+
+        setCurrentSliderIndicator(movieDetailsBinding.videosIndicator, 0);
+    }
+
+    private void setVideoAdapter(List<VideoModel> videoModelList) {
+
+//                String[] videoIds = {"6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY"};
+        movieDetailsBinding.videosViewPager.setAdapter(new YoutubeVideosAdapter(videoModelList, getLifecycle()));
+        setUpSliderIndicator(movieDetailsBinding.videosIndicator, videoModelList.size());
     }
 
     private void setMovieImages(String id) {
@@ -113,20 +143,24 @@ public class MovieDetailsActivity extends AppCompatActivity {
         movieDetailsBinding.sliderViewPager.setOffscreenPageLimit(1);
         movieDetailsBinding.sliderViewPager.setAdapter(new SliderAdapter(imageList));
 
+        if (imageList.size() > 7) {
+            setUpSliderIndicator(movieDetailsBinding.sliderIndicator, imageList.size() / 2);
+        } else {
+            setUpSliderIndicator(movieDetailsBinding.sliderIndicator, imageList.size());
 
-        setUpSliderIndicator(imageList.size() / 2);
+        }
 
         movieDetailsBinding.sliderViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
 
-                setCurrentSliderIndicator(position);
+                setCurrentSliderIndicator(movieDetailsBinding.sliderIndicator, position);
 
             }
         });
 
-        setCurrentSliderIndicator(0);
+        setCurrentSliderIndicator(movieDetailsBinding.sliderIndicator, 0);
 
         /*After setting the adapter use the timer */
         final Handler handler = new Handler();
@@ -148,14 +182,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }, DELAY_MS, PERIOD_MS);
     }
 
-    private void setCurrentSliderIndicator(int position) {
+    private void setCurrentSliderIndicator(LinearLayout sliderIndicator, int position) {
 
-        int childCount = movieDetailsBinding.sliderIndicator.getChildCount();
-
+        int childCount = sliderIndicator.getChildCount();
 
         currentPage = position;
         for (int i = 0; i < childCount; i++) {
-            ImageView imageView = (ImageView) movieDetailsBinding.sliderIndicator.getChildAt(i);
+            ImageView imageView = (ImageView) sliderIndicator.getChildAt(i);
             if (i == position) {
                 imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.background_slider_indicator_active));
             } else {
@@ -164,15 +197,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void setUpSliderIndicator(int size) {
-
+    private void setUpSliderIndicator(LinearLayout sliderIndicator, int size) {
 
         ImageView[] indicators = new ImageView[size];
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
         );
-
 
         layoutParams.setMargins(8, 0, 8, 0);
 
@@ -184,7 +215,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
             );
 
             indicators[i].setLayoutParams(layoutParams);
-            movieDetailsBinding.sliderIndicator.addView(indicators[i]);
+            sliderIndicator.addView(indicators[i]);
         }
 
 
@@ -239,7 +270,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
         });
 
     }
-
 
     @Override
     protected void onDestroy() {

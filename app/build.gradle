@@ -69,14 +69,14 @@ dependencies {
     // Rounded Image
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
-
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.13.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
 
-
     //lottie Animations (loading and more)
     implementation 'com.airbnb.android:lottie:4.2.2'
 
+    // Youtube
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:11.0.1'
 
 }

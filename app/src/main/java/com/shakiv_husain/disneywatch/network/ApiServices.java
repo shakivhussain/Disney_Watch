@@ -6,7 +6,9 @@ import static com.shakiv_husain.disneywatch.util.constants.ApiConstants.MOVIE_DE
 import static com.shakiv_husain.disneywatch.util.constants.ApiConstants.MOVIE_ID;
 import static com.shakiv_husain.disneywatch.util.constants.ApiConstants.PAGE;
 import static com.shakiv_husain.disneywatch.util.constants.ApiConstants.POPULAR_MOVIES;
+import static com.shakiv_husain.disneywatch.util.constants.ApiConstants.VIDEOS;
 
+import com.shakiv_husain.disneywatch.models.Video.VideoResponse;
 import com.shakiv_husain.disneywatch.models.images.ImageResponse;
 import com.shakiv_husain.disneywatch.models.movie_details.MovieDetailsResponse;
 import com.shakiv_husain.disneywatch.models.popular_movie.PopularMoviesResponse;
@@ -36,5 +38,11 @@ public interface ApiServices {
             @Query(API_KEY_) String api_key
     );
 
+
+    @GET(VIDEOS)
+    Call<VideoResponse> getVideos(
+            @Path(MOVIE_ID) String movie_id,
+            @Query(API_KEY_) String api_key
+    );
 
 }

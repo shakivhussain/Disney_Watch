@@ -16,5 +16,6 @@ public class ApiConstants {
     public static final String MOVIE_DETAIL = "movie/{movie_id}";
     public static final String MOVIE_ID = "movie_id";
     public static final String IMAGES = "movie/{movie_id}/images";
+    public static final String VIDEOS = "movie/{movie_id}/videos";
 
 }

@@ -42,7 +42,11 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderAdap
 
     @Override
     public int getItemCount() {
-        return backdrops.size() / 2;
+        if (backdrops.size() > 7) {
+            return backdrops.size() / 2;
+        } else {
+            return backdrops.size();
+        }
     }
 
 
