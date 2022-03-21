@@ -2,6 +2,7 @@ package com.shakiv_husain.disneywatch.activities;
 
 import static com.shakiv_husain.disneywatch.util.constants.AppConstants.ID;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -17,32 +18,38 @@ import androidx.core.text.HtmlCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.shakiv_husain.disneywatch.R;
 import com.shakiv_husain.disneywatch.adapter.SliderAdapter;
+import com.shakiv_husain.disneywatch.adapter.VerticalMovieAdapter;
 import com.shakiv_husain.disneywatch.adapter.YoutubeVideosAdapter;
 import com.shakiv_husain.disneywatch.databinding.ActivityMovieDetailsBinding;
+import com.shakiv_husain.disneywatch.listeners.MovieListener;
 import com.shakiv_husain.disneywatch.models.Video.VideoModel;
 import com.shakiv_husain.disneywatch.models.Video.VideoResponse;
 import com.shakiv_husain.disneywatch.models.images.Backdrop;
 import com.shakiv_husain.disneywatch.models.images.ImageResponse;
 import com.shakiv_husain.disneywatch.models.movie_details.MovieDetailsResponse;
+import com.shakiv_husain.disneywatch.models.popular_movie.MovieModel;
+import com.shakiv_husain.disneywatch.models.popular_movie.MoviesResponse;
 import com.shakiv_husain.disneywatch.viewmodel.MovieDetailsViewModel;
 import com.shakiv_husain.disneywatch.viewmodel.MovieImagesViewModel;
 import com.shakiv_husain.disneywatch.viewmodel.MovieVideosViewModel;
+import com.shakiv_husain.disneywatch.viewmodel.MoviesViewModel;
 
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MovieDetailsActivity extends AppCompatActivity {
-
+public class MovieDetailsActivity extends AppCompatActivity implements MovieListener {
 
     private static final String TAG = MovieDetailsActivity.class.getName();
     private MovieDetailsViewModel movieDetailsViewModel;
     private MovieImagesViewModel movieImagesViewModel;
     private MovieVideosViewModel movieVideosViewModel;
+    private MoviesViewModel moviesViewModel;
     private ActivityMovieDetailsBinding movieDetailsBinding;
 
     Timer timer;
@@ -72,6 +79,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
         movieDetailsViewModel = new ViewModelProvider(this).get(MovieDetailsViewModel.class);
         movieImagesViewModel = new ViewModelProvider(this).get(MovieImagesViewModel.class);
         movieVideosViewModel = new ViewModelProvider(this).get(MovieVideosViewModel.class);
+        moviesViewModel = new ViewModelProvider(this).get(MoviesViewModel.class);
+
+
+        // Time Initialize
+        timer = new Timer(); // This will create a new Thread
 
         movieDetailsBinding.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,11 +94,38 @@ public class MovieDetailsActivity extends AppCompatActivity {
             }
         });
 
-
         getMovieDetails(id);
         setMovieImages(id);
         setVideos(id);
+        getSimilarMovies(id);
 
+    }
+
+    private void getSimilarMovies(String id) {
+
+
+        moviesViewModel.getSimilarMovies(id, 1).observe(this, new Observer<MoviesResponse>() {
+            @Override
+            public void onChanged(MoviesResponse moviesResponse) {
+                Log.d(TAG, "getSimilarMovies: " + moviesResponse.getMovies().size());
+
+
+                setSimilarMoviesAdapter(moviesResponse.getMovies());
+            }
+        });
+
+    }
+
+    private void setSimilarMoviesAdapter(List<MovieModel> movies) {
+
+        if (movies.size() > 0) {
+            movieDetailsBinding.tvSimilarMovies.setVisibility(View.VISIBLE);
+            movieDetailsBinding.similarMoviesVP.setVisibility(View.VISIBLE);
+
+
+            movieDetailsBinding.similarMoviesVP.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            movieDetailsBinding.similarMoviesVP.setAdapter(new VerticalMovieAdapter(movies, this));
+        }
     }
 
     private void setVideos(String movie_id) {
@@ -113,9 +152,18 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     private void setVideoAdapter(List<VideoModel> videoModelList) {
 
+        if (videoModelList.size() > 0) {
+
+            movieDetailsBinding.tvVideosTrailer.setVisibility(View.VISIBLE);
+            movieDetailsBinding.videosViewPager.setVisibility(View.VISIBLE);
+            movieDetailsBinding.videosIndicator.setVisibility(View.VISIBLE);
+
 //                String[] videoIds = {"6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY"};
-        movieDetailsBinding.videosViewPager.setAdapter(new YoutubeVideosAdapter(videoModelList, getLifecycle()));
-        setUpSliderIndicator(movieDetailsBinding.videosIndicator, videoModelList.size());
+            movieDetailsBinding.videosViewPager.setOffscreenPageLimit(1);
+            movieDetailsBinding.videosViewPager.setAdapter(new YoutubeVideosAdapter(videoModelList, getLifecycle()));
+            setUpSliderIndicator(movieDetailsBinding.videosIndicator, videoModelList.size());
+        }
+
     }
 
     private void setMovieImages(String id) {
@@ -140,6 +188,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     private void setAdapter(List<Backdrop> imageList) {
 
+        movieDetailsBinding.sliderViewPager.setVisibility(View.VISIBLE);
+        movieDetailsBinding.sliderIndicator.setVisibility(View.VISIBLE);
         movieDetailsBinding.sliderViewPager.setOffscreenPageLimit(1);
         movieDetailsBinding.sliderViewPager.setAdapter(new SliderAdapter(imageList));
 
@@ -173,7 +223,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
             }
         };
 
-        timer = new Timer(); // This will create a new Thread
         timer.schedule(new TimerTask() { // task to be scheduled
             @Override
             public void run() {
@@ -228,8 +277,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
             @Override
             public void onChanged(MovieDetailsResponse movieDetailsResponse) {
 
-                setData(movieDetailsResponse);
-
+                if (movieDetailsResponse != null) {
+                    movieDetailsBinding.progressBar.setVisibility(View.GONE);
+                    setData(movieDetailsResponse);
+                }
 
             }
         });
@@ -237,21 +288,45 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     private void setData(MovieDetailsResponse movieDetailsResponse) {
 
-        movieDetailsBinding.setImageUrl(movieDetailsResponse.getPosterPath());
-        movieDetailsBinding.setTitle(movieDetailsResponse.getTitle());
-        movieDetailsBinding.setStatus(movieDetailsResponse.getStatus());
-        movieDetailsBinding.setReleaseDate(movieDetailsResponse.getReleaseDate());
-        movieDetailsBinding.setRating(String.valueOf(movieDetailsResponse.getVoteCount()));
-        movieDetailsBinding.setGeneric(movieDetailsResponse.getGenres().get(0).name);
-        movieDetailsBinding.setRuntime(String.valueOf((int) movieDetailsResponse.getRuntime()));
-        movieDetailsBinding.setPopularity(String.valueOf((int) movieDetailsResponse.getPopularity()));
-        movieDetailsBinding.setDesc(
-                String.valueOf(
-                        HtmlCompat.fromHtml(
-                                movieDetailsResponse.getOverview(), HtmlCompat.FROM_HTML_MODE_LEGACY
-                        )
-                )
-        );
+
+        movieDetailsBinding.ivPoster.setVisibility(View.VISIBLE);
+        movieDetailsBinding.tvTitle.setVisibility(View.VISIBLE);
+        movieDetailsBinding.popularity.setVisibility(View.VISIBLE);
+        movieDetailsBinding.tvStatus.setVisibility(View.VISIBLE);
+        movieDetailsBinding.tvReleaseDate.setVisibility(View.VISIBLE);
+        movieDetailsBinding.layoutMisc.setVisibility(View.VISIBLE);
+        movieDetailsBinding.divider.setVisibility(View.VISIBLE);
+        movieDetailsBinding.divider2.setVisibility(View.VISIBLE);
+        movieDetailsBinding.tvDescription.setVisibility(View.VISIBLE);
+        movieDetailsBinding.tvReadMore.setVisibility(View.VISIBLE);
+
+
+        if (movieDetailsResponse.getPosterPath() != null)
+            movieDetailsBinding.setImageUrl(movieDetailsResponse.getPosterPath());
+        if (movieDetailsResponse.getTitle() != null)
+            movieDetailsBinding.setTitle(movieDetailsResponse.getTitle());
+        if (movieDetailsResponse.getStatus() != null)
+            movieDetailsBinding.setStatus(movieDetailsResponse.getStatus());
+        if (movieDetailsResponse.getReleaseDate() != null)
+            movieDetailsBinding.setReleaseDate(movieDetailsResponse.getReleaseDate());
+        if (!String.valueOf(movieDetailsResponse.getVoteCount()).isEmpty())
+            movieDetailsBinding.setRating(String.valueOf(movieDetailsResponse.getVoteCount()));
+        if (movieDetailsResponse.getGenres() != null)
+            movieDetailsBinding.setGeneric(movieDetailsResponse.getGenres().get(0).name);
+        if (!String.valueOf(movieDetailsResponse.getRuntime()).isEmpty())
+            movieDetailsBinding.setRuntime(String.valueOf((int) movieDetailsResponse.getRuntime()));
+        if (!String.valueOf(movieDetailsResponse.getPopularity()).isEmpty())
+            movieDetailsBinding.setPopularity(String.valueOf((int) movieDetailsResponse.getPopularity()));
+        if (movieDetailsResponse.getOverview() != null) {
+            movieDetailsBinding.setDesc(
+                    String.valueOf(
+                            HtmlCompat.fromHtml(
+                                    movieDetailsResponse.getOverview(), HtmlCompat.FROM_HTML_MODE_LEGACY
+                            )
+                    )
+            );
+
+        }
 
         movieDetailsBinding.tvReadMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,5 +350,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         timer.cancel();
+    }
+
+    @Override
+    public void onTvShowClicked(MovieModel movieModel) {
+        Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
+        intent.putExtra(ID, movieModel.getId());
+        startActivity(intent);
     }
 }

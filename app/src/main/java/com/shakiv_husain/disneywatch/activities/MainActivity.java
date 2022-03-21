@@ -17,9 +17,9 @@ import com.shakiv_husain.disneywatch.adapter.MovieAdapter;
 import com.shakiv_husain.disneywatch.databinding.ActivityMainBinding;
 import com.shakiv_husain.disneywatch.listeners.MovieListener;
 import com.shakiv_husain.disneywatch.models.popular_movie.MovieModel;
-import com.shakiv_husain.disneywatch.models.popular_movie.PopularMoviesResponse;
+import com.shakiv_husain.disneywatch.models.popular_movie.MoviesResponse;
 import com.shakiv_husain.disneywatch.util.Log;
-import com.shakiv_husain.disneywatch.viewmodel.PopularMoviesViewModel;
+import com.shakiv_husain.disneywatch.viewmodel.MoviesViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
 
     public static final String TAG = MainActivity.class.getName();
     private ActivityMainBinding activityMainBinding;
-    private PopularMoviesViewModel popularMoviesViewModel;
+    private MoviesViewModel moviesViewModel;
     private MovieAdapter movieAdapter;
     private List<MovieModel> movieList;
     int currentPage = 1;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
 
     private void initialization() {
 
-        popularMoviesViewModel = new ViewModelProvider(this).get(PopularMoviesViewModel.class);
+        moviesViewModel = new ViewModelProvider(this).get(MoviesViewModel.class);
         movieList = new ArrayList<>();
         movieAdapter = new MovieAdapter(this, movieList);
         activityMainBinding.mainRecyclerIew.setHasFixedSize(true);
@@ -71,18 +71,18 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
     private void getPopulerMoviesList() {
 
         toggleLoading();
-        popularMoviesViewModel.getPopularMovies(currentPage).observe(this, new Observer<PopularMoviesResponse>() {
+        moviesViewModel.getPopularMovies(currentPage).observe(this, new Observer<MoviesResponse>() {
             @Override
-            public void onChanged(PopularMoviesResponse popularMoviesResponse) {
+            public void onChanged(MoviesResponse moviesResponse) {
                 toggleLoading();
 
 
-                if (popularMoviesResponse != null) {
+                if (moviesResponse != null) {
 
-                    totalPage = popularMoviesResponse.getTotalPages();
-                    if (popularMoviesResponse.getMovies() != null) {
+                    totalPage = moviesResponse.getTotalPages();
+                    if (moviesResponse.getMovies() != null) {
 
-                        movieList.addAll(popularMoviesResponse.getMovies());
+                        movieList.addAll(moviesResponse.getMovies());
                         int oldMovieList = movieList.size();
                         movieAdapter.notifyItemRangeInserted(oldMovieList, movieList.size());
                     }

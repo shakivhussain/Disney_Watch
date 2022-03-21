@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="movie"
+            type="com.shakiv_husain.disneywatch.models.popular_movie.MovieModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_170sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp">
+
+        <ImageView
+            android:id="@+id/imageUrl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:imageURL="@{movie.posterPath}"
+            android:scaleType="center" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

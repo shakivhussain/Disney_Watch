@@ -67,6 +67,7 @@
                 android:layout_height="@dimen/_160sdp"
                 android:contentDescription="@string/app_name"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -84,7 +85,7 @@
                 android:gravity="end|center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/_8sdp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/fadingEdge"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/ivPoster" />
@@ -109,6 +110,7 @@
                 android:layout_height="@dimen/_150sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:imageURL="@{imageUrl}"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/sliderViewPager"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sliderViewPager" />
@@ -128,6 +130,7 @@
                 android:text="@{title}"
                 android:textColor="@color/colorTextIcon"
                 android:textSize="@dimen/_14ssp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivPoster"
                 app:layout_constraintTop_toBottomOf="@id/sliderIndicator" />
@@ -146,6 +149,7 @@
                 android:text='@{"Popularity : "+popularity }'
                 android:textColor="@color/colorTextOther"
                 android:textSize="@dimen/_12ssp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivPoster"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle" />
@@ -182,6 +186,7 @@
                 android:text="@{releaseDate}"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/_11ssp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivPoster"
                 app:layout_constraintTop_toBottomOf="@id/tvStatus" />
@@ -195,7 +200,7 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:background="@color/colorTextSecondary"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/ivPoster" />
 
             <LinearLayout
@@ -207,6 +212,7 @@
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:gravity="center"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/divider">
 
 
@@ -279,7 +285,7 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:background="@color/colorTextSecondary"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/layoutMisc" />
 
             <TextView
@@ -296,6 +302,7 @@
                 android:text="@{desc}"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/_11sdp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider2"
@@ -310,6 +317,7 @@
                 android:text="@string/read_more"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/_12sdp"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@id/tvDescription"
                 app:layout_constraintTop_toBottomOf="@id/tvDescription" />
 
@@ -326,6 +334,7 @@
                 android:text="@string/trailer_amp_videos"
                 android:textColor="@color/colorTextIcon"
                 android:textSize="@dimen/_14ssp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvReadMore" />
@@ -339,6 +348,7 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvVideos_trailer" />
@@ -347,14 +357,52 @@
                 android:id="@+id/videosIndicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="@dimen/_8sdp"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/videosViewPager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+
+            <TextView
+                android:id="@+id/tvSimilarMovies"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:fontFamily="@font/ubuntu_medium"
+                android:includeFontPadding="false"
+                android:text="@string/similar_movies"
+                android:textColor="@color/colorTextIcon"
+                android:textSize="@dimen/_14sdp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/videosViewPager"
+                app:layout_constraintStart_toStartOf="@id/videosViewPager"
+                app:layout_constraintTop_toBottomOf="@id/videosViewPager" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/similarMoviesVP"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_170sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSimilarMovies" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_36sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
