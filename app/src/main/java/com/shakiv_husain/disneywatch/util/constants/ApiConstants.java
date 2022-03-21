@@ -13,6 +13,7 @@ public class ApiConstants {
     public static final String API_KEY_ = "api_key";
     public static final String PAGE = "page";
     public static final String POPULAR_MOVIES = "movie/popular";
+    public static final String UPCOMING_MOVIES = "movie/upcoming";
     public static final String MOVIE_DETAIL = "movie/{movie_id}";
     public static final String MOVIE_ID = "movie_id";
     public static final String IMAGES = "movie/{movie_id}/images";

@@ -8,12 +8,8 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
@@ -34,6 +30,7 @@ import com.shakiv_husain.disneywatch.models.images.ImageResponse;
 import com.shakiv_husain.disneywatch.models.movie_details.MovieDetailsResponse;
 import com.shakiv_husain.disneywatch.models.popular_movie.MovieModel;
 import com.shakiv_husain.disneywatch.models.popular_movie.MoviesResponse;
+import com.shakiv_husain.disneywatch.util.Util;
 import com.shakiv_husain.disneywatch.viewmodel.MovieDetailsViewModel;
 import com.shakiv_husain.disneywatch.viewmodel.MovieImagesViewModel;
 import com.shakiv_husain.disneywatch.viewmodel.MovieVideosViewModel;
@@ -143,11 +140,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                setCurrentSliderIndicator(movieDetailsBinding.videosIndicator, position);
+                Util.setCurrentSliderIndicator(getApplicationContext(), movieDetailsBinding.videosIndicator, position);
             }
         });
-
-        setCurrentSliderIndicator(movieDetailsBinding.videosIndicator, 0);
+        Util.setCurrentSliderIndicator(getApplicationContext(), movieDetailsBinding.videosIndicator, 0);
     }
 
     private void setVideoAdapter(List<VideoModel> videoModelList) {
@@ -161,7 +157,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
 //                String[] videoIds = {"6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY"};
             movieDetailsBinding.videosViewPager.setOffscreenPageLimit(1);
             movieDetailsBinding.videosViewPager.setAdapter(new YoutubeVideosAdapter(videoModelList, getLifecycle()));
-            setUpSliderIndicator(movieDetailsBinding.videosIndicator, videoModelList.size());
+            Util.setUpSliderIndicator(getApplicationContext(), movieDetailsBinding.videosIndicator, videoModelList.size());
         }
 
     }
@@ -194,23 +190,20 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
         movieDetailsBinding.sliderViewPager.setAdapter(new SliderAdapter(imageList));
 
         if (imageList.size() > 7) {
-            setUpSliderIndicator(movieDetailsBinding.sliderIndicator, imageList.size() / 2);
+            Util.setUpSliderIndicator(getApplicationContext(), movieDetailsBinding.sliderIndicator, imageList.size() / 2);
         } else {
-            setUpSliderIndicator(movieDetailsBinding.sliderIndicator, imageList.size());
-
+            Util.setUpSliderIndicator(getApplicationContext(), movieDetailsBinding.sliderIndicator, imageList.size());
         }
 
         movieDetailsBinding.sliderViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-
-                setCurrentSliderIndicator(movieDetailsBinding.sliderIndicator, position);
-
+                Util.setCurrentSliderIndicator(getApplicationContext(), movieDetailsBinding.sliderIndicator, position);
             }
         });
 
-        setCurrentSliderIndicator(movieDetailsBinding.sliderIndicator, 0);
+        Util.setCurrentSliderIndicator(getApplicationContext(), movieDetailsBinding.sliderIndicator, 0);
 
         /*After setting the adapter use the timer */
         final Handler handler = new Handler();
@@ -229,45 +222,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
                 handler.post(Update);
             }
         }, DELAY_MS, PERIOD_MS);
-    }
-
-    private void setCurrentSliderIndicator(LinearLayout sliderIndicator, int position) {
-
-        int childCount = sliderIndicator.getChildCount();
-
-        currentPage = position;
-        for (int i = 0; i < childCount; i++) {
-            ImageView imageView = (ImageView) sliderIndicator.getChildAt(i);
-            if (i == position) {
-                imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.background_slider_indicator_active));
-            } else {
-                imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.background_slider_indicator_inactive));
-            }
-        }
-    }
-
-    private void setUpSliderIndicator(LinearLayout sliderIndicator, int size) {
-
-        ImageView[] indicators = new ImageView[size];
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-
-        layoutParams.setMargins(8, 0, 8, 0);
-
-        for (int i = 0; i < indicators.length; i++) {
-
-            indicators[i] = new ImageView(getApplicationContext());
-            indicators[i].setImageDrawable(
-                    ContextCompat.getDrawable(getApplicationContext(), R.drawable.background_slider_indicator_inactive)
-            );
-
-            indicators[i].setLayoutParams(layoutParams);
-            sliderIndicator.addView(indicators[i]);
-        }
-
-
     }
 
     private void getMovieDetails(String id) {

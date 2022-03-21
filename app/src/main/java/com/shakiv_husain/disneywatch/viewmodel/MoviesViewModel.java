@@ -25,4 +25,9 @@ public class MoviesViewModel extends ViewModel {
     public LiveData<MoviesResponse> getSimilarMovies(String movie_id, int page) {
         return moviesRepository.getSimilarMovies(movie_id, page);
     }
+
+
+    public LiveData<MoviesResponse> getUpcomingMovies(int page) {
+        return moviesRepository.getUpcomingMovies(page);
+    }
 }

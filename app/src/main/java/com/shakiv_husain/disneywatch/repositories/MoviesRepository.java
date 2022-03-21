@@ -37,7 +37,7 @@ public class MoviesRepository {
                     popularMovies.postValue(response.body());
                 } else {
                     assert response.errorBody() != null;
-                    Log.i(TAG, "Error" + response.errorBody());
+                    Log.i(TAG, "Error" + response.toString());
                     popularMovies.postValue(null);
                 }
 
@@ -65,7 +65,7 @@ public class MoviesRepository {
 
                     similarMovies.postValue(response.body());
                 } else {
-                    Log.e(TAG, "onResponse: " + response.errorBody());
+                    Log.e(TAG, " similarMovies Error : " + response.toString());
                     similarMovies.postValue(null);
                 }
 
@@ -79,6 +79,31 @@ public class MoviesRepository {
         });
 
         return similarMovies;
+    }
+
+    public LiveData<MoviesResponse> getUpcomingMovies(int page) {
+
+        MutableLiveData<MoviesResponse> upcomingMovies = new MutableLiveData<>();
+
+        apiServices.getUpcomingMovies(page, API_KEY).enqueue(new Callback<MoviesResponse>() {
+            @Override
+            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                if (response.isSuccessful()) {
+                    upcomingMovies.postValue(response.body());
+                } else {
+                    Log.e(TAG, " UpcomingMovies Error 1 : " + response.toString());
+                    upcomingMovies.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MoviesResponse> call, Throwable t) {
+
+                Log.e(TAG, " UpcomingMovies Error : " + t.getMessage());
+            }
+        });
+
+        return upcomingMovies;
     }
 
 }

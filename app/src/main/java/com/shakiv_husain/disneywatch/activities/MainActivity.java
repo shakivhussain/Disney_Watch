@@ -59,16 +59,31 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
                 if (currentPage < totalPage) {
                     currentPage += 1;
                     Log.d(TAG, currentPage + " Total = " + totalPage);
-                    getPopulerMoviesList();
+                    setPopulerMoviesList();
                 }
             }
         });
 
 
-        getPopulerMoviesList();
+        setPopulerMoviesList();
+        setUpcomingMovies();
     }
 
-    private void getPopulerMoviesList() {
+    private void setUpcomingMovies() {
+
+
+        moviesViewModel.getUpcomingMovies(1).observe(this, new Observer<MoviesResponse>() {
+            @Override
+            public void onChanged(MoviesResponse moviesResponse) {
+                if (moviesResponse != null) {
+                    Log.d(TAG, " getUpcomingMovies  " + moviesResponse.getTotalResults());
+                }
+            }
+        });
+
+    }
+
+    private void setPopulerMoviesList() {
 
         toggleLoading();
         moviesViewModel.getPopularMovies(currentPage).observe(this, new Observer<MoviesResponse>() {
