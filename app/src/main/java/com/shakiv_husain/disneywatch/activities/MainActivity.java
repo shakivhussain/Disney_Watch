@@ -4,6 +4,8 @@ import static com.shakiv_husain.disneywatch.util.constants.AppConstants.ID;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,9 +13,13 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.shakiv_husain.disneywatch.R;
 import com.shakiv_husain.disneywatch.adapter.MovieAdapter;
+import com.shakiv_husain.disneywatch.adapter.UpcomingMovieAdapter;
 import com.shakiv_husain.disneywatch.databinding.ActivityMainBinding;
 import com.shakiv_husain.disneywatch.listeners.MovieListener;
 import com.shakiv_husain.disneywatch.models.popular_movie.MovieModel;
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
     private MoviesViewModel moviesViewModel;
     private MovieAdapter movieAdapter;
     private List<MovieModel> movieList;
+    private Handler sliderHandler = new Handler();
     int currentPage = 1;
     int totalPage = 1;
 
@@ -76,8 +83,53 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
             @Override
             public void onChanged(MoviesResponse moviesResponse) {
                 if (moviesResponse != null) {
-                    Log.d(TAG, " getUpcomingMovies  " + moviesResponse.getTotalResults());
+
+                    if (moviesResponse.getMovies() != null && moviesResponse.getMovies().size() > 0) {
+                        setUpcomingMoviesAdapter(moviesResponse);
+                    }
                 }
+            }
+        });
+
+
+    }
+
+    private Runnable sliderRunnable = new Runnable() {
+        @Override
+        public void run() {
+            activityMainBinding.upcomingMoviesViewPager.setCurrentItem(activityMainBinding.upcomingMoviesViewPager.getCurrentItem() + 1);
+        }
+    };
+
+    private void setUpcomingMoviesAdapter(MoviesResponse moviesResponse) {
+
+        activityMainBinding.upcomingMoviesViewPager.setAdapter(new UpcomingMovieAdapter(this, moviesResponse.getMovies() ,activityMainBinding.upcomingMoviesViewPager));
+        activityMainBinding.upcomingMoviesViewPager.setClipToPadding(false);
+        activityMainBinding.upcomingMoviesViewPager.setClipChildren(false);
+        activityMainBinding.upcomingMoviesViewPager.setOffscreenPageLimit(3);
+        activityMainBinding.upcomingMoviesViewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+
+
+
+        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
+        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
+        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
+            @Override
+            public void transformPage(@NonNull View page, float position) {
+                float r = 1 - Math.abs(position);
+                page.setScaleY(0.85f + r * 0.15f);
+
+            }
+        });
+
+        activityMainBinding.upcomingMoviesViewPager.setPageTransformer(compositePageTransformer);
+
+        activityMainBinding.upcomingMoviesViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                sliderHandler.removeCallbacks(sliderRunnable);
+                sliderHandler.postDelayed(sliderRunnable, 3000);
             }
         });
 

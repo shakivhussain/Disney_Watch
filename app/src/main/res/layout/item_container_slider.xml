@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -14,12 +15,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:adjustViewBounds="true"
             android:contentDescription="@string/app_name"
             android:imageURL="@{imageUrl}"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitXY"
+            app:riv_corner_radius="@dimen/_4sdp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
