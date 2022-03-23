@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,13 +10,34 @@
             name="imageUrl"
             type="String" />
 
+        <variable
+            name="name"
+            type="String" />
+
+        <variable
+            name="releaseDate"
+            type="String" />
+
+      <variable
+          name="nameEnable"
+          type="boolean" />
+
+        <variable
+            name="dateEnable"
+            type="boolean" />
+
+        <import type="android.view.View"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:layout_marginEnd="@dimen/_4sdp">
 
         <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
@@ -23,6 +45,45 @@
             android:imageURL="@{imageUrl}"
             android:scaleType="fitXY"
             app:riv_corner_radius="@dimen/_4sdp" />
+
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/ubuntu_bold"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:visibility="@{nameEnable? View.VISIBLE : View.GONE, default = gone}"
+            android:text="@{name}"
+            android:textColor="@color/colorTextIcon"
+            android:textSize="@dimen/_14sdp"
+            app:layout_constraintBottom_toTopOf="@id/tvReleaseDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Shakib MAnsoori" />
+
+
+        <TextView
+            android:id="@+id/tvReleaseDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_14sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/ubuntu_regular"
+            android:gravity="center"
+            android:visibility="@{dateEnable? View.VISIBLE : View.GONE, default = gone}"
+
+            android:includeFontPadding="false"
+            android:text='@{"( "+releaseDate+" )"}'
+            android:textColor="@color/colorTextIcon"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="@id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="( 20/09/1999 )" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

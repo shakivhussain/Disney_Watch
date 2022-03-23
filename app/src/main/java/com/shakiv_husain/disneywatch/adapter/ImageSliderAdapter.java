@@ -14,13 +14,13 @@ import com.shakiv_husain.disneywatch.models.images.Backdrop;
 
 import java.util.List;
 
-public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderAdapterViewHolder> {
+public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.SliderAdapterViewHolder> {
     private MovieListener movieListener;
     private List<Backdrop> backdrops;
     private LayoutInflater inflater;
 
 
-    public SliderAdapter(List<Backdrop> imageUrls) {
+    public ImageSliderAdapter(List<Backdrop> imageUrls) {
         this.movieListener = movieListener;
         this.backdrops = imageUrls;
     }

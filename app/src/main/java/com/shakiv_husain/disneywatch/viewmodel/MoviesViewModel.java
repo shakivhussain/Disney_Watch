@@ -30,4 +30,9 @@ public class MoviesViewModel extends ViewModel {
     public LiveData<MoviesResponse> getUpcomingMovies(int page) {
         return moviesRepository.getUpcomingMovies(page);
     }
+
+
+    public LiveData<MoviesResponse> getTopRated(int page){
+        return moviesRepository.getTopRated(page);
+    }
 }

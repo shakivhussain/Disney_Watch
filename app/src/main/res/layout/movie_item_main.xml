@@ -38,6 +38,7 @@
             android:layout_marginStart="@dimen/_4sdp"
             android:imageURL="@{movie.posterPath}"
             android:scaleType="centerCrop"
+            tools:src="@mipmap/ic_launcher"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:riv_corner_radius="@dimen/_4sdp" />

@@ -1,5 +1,6 @@
 package com.shakiv_husain.disneywatch.activities;
 
+import static com.shakiv_husain.disneywatch.util.Util.setCurrentSliderIndicator;
 import static com.shakiv_husain.disneywatch.util.constants.AppConstants.ID;
 
 import android.content.Intent;
@@ -18,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.shakiv_husain.disneywatch.R;
-import com.shakiv_husain.disneywatch.adapter.SliderAdapter;
+import com.shakiv_husain.disneywatch.adapter.ImageSliderAdapter;
 import com.shakiv_husain.disneywatch.adapter.VerticalMovieAdapter;
 import com.shakiv_husain.disneywatch.adapter.YoutubeVideosAdapter;
 import com.shakiv_husain.disneywatch.databinding.ActivityMovieDetailsBinding;
@@ -140,10 +141,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                Util.setCurrentSliderIndicator(getApplicationContext(), movieDetailsBinding.videosIndicator, position);
+                setCurrentSliderIndicator(getApplicationContext(), movieDetailsBinding.videosIndicator, position);
             }
         });
-        Util.setCurrentSliderIndicator(getApplicationContext(), movieDetailsBinding.videosIndicator, 0);
+        setCurrentSliderIndicator(getApplicationContext(), movieDetailsBinding.videosIndicator, 0);
     }
 
     private void setVideoAdapter(List<VideoModel> videoModelList) {
@@ -187,7 +188,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
         movieDetailsBinding.sliderViewPager.setVisibility(View.VISIBLE);
         movieDetailsBinding.sliderIndicator.setVisibility(View.VISIBLE);
         movieDetailsBinding.sliderViewPager.setOffscreenPageLimit(1);
-        movieDetailsBinding.sliderViewPager.setAdapter(new SliderAdapter(imageList));
+        movieDetailsBinding.sliderViewPager.setAdapter(new ImageSliderAdapter(imageList));
 
         if (imageList.size() > 7) {
             Util.setUpSliderIndicator(getApplicationContext(), movieDetailsBinding.sliderIndicator, imageList.size() / 2);
@@ -199,11 +200,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                Util.setCurrentSliderIndicator(getApplicationContext(), movieDetailsBinding.sliderIndicator, position);
+                setCurrentSliderIndicator(getApplicationContext(), movieDetailsBinding.sliderIndicator, position);
             }
         });
 
-        Util.setCurrentSliderIndicator(getApplicationContext(), movieDetailsBinding.sliderIndicator, 0);
+        setCurrentSliderIndicator(getApplicationContext(), movieDetailsBinding.sliderIndicator, 0);
 
         /*After setting the adapter use the timer */
         final Handler handler = new Handler();

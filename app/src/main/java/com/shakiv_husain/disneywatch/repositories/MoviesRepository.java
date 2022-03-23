@@ -106,4 +106,29 @@ public class MoviesRepository {
         return upcomingMovies;
     }
 
+
+    public LiveData<MoviesResponse> getTopRated(int page) {
+
+        MutableLiveData<MoviesResponse> topRatedMovies = new MutableLiveData<>();
+
+        apiServices.getTopRatedMovies(page, API_KEY).enqueue(new Callback<MoviesResponse>() {
+            @Override
+            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                if (response.isSuccessful()) {
+                    topRatedMovies.postValue(response.body());
+                } else {
+                    Log.e(TAG, response.toString());
+                    topRatedMovies.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                Log.e(TAG, t.getMessage());
+                topRatedMovies.postValue(null);
+            }
+        });
+        return topRatedMovies;
+    }
+
 }
