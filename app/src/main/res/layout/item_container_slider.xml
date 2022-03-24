@@ -18,15 +18,15 @@
             name="releaseDate"
             type="String" />
 
-      <variable
-          name="nameEnable"
-          type="boolean" />
+        <variable
+            name="nameEnable"
+            type="boolean" />
 
         <variable
             name="dateEnable"
             type="boolean" />
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
     </data>
 
@@ -35,6 +35,19 @@
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/_4sdp"
         android:layout_marginEnd="@dimen/_4sdp">
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnim"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/dot_loading" />
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/imageView"
@@ -55,10 +68,10 @@
             android:fontFamily="@font/ubuntu_bold"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:visibility="@{nameEnable? View.VISIBLE : View.GONE, default = gone}"
             android:text="@{name}"
             android:textColor="@color/colorTextIcon"
             android:textSize="@dimen/_14sdp"
+            android:visibility="@{nameEnable? View.VISIBLE : View.GONE, default = gone}"
             app:layout_constraintBottom_toTopOf="@id/tvReleaseDate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,12 +86,12 @@
             android:ellipsize="end"
             android:fontFamily="@font/ubuntu_regular"
             android:gravity="center"
-            android:visibility="@{dateEnable? View.VISIBLE : View.GONE, default = gone}"
-
             android:includeFontPadding="false"
+
             android:text='@{"( "+releaseDate+" )"}'
             android:textColor="@color/colorTextIcon"
             android:textSize="@dimen/_10sdp"
+            android:visibility="@{dateEnable? View.VISIBLE : View.GONE, default = gone}"
             app:layout_constraintBottom_toBottomOf="@id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

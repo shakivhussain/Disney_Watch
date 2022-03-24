@@ -1,6 +1,8 @@
 package com.shakiv_husain.disneywatch.adapter;
 
+import android.animation.Animator;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -55,6 +57,31 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
         public SliderAdapterViewHolder(@NonNull ItemContainerSliderBinding itemContainerSliderBinding) {
             super(itemContainerSliderBinding.getRoot());
             this.itemContainerSliderBinding = itemContainerSliderBinding;
+
+
+            itemContainerSliderBinding.lottieAnim.addAnimatorListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+                    itemContainerSliderBinding.lottieAnim.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    itemContainerSliderBinding.lottieAnim.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
+
+
         }
 
         public void bindTvShow(String imUrl) {

@@ -31,6 +31,18 @@
             app:layout_constraintTop_toTopOf="@id/tvTitle" />
 
 
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_anim"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageMovie"
+            app:layout_constraintEnd_toEndOf="@+id/imageMovie"
+            app:layout_constraintStart_toStartOf="@+id/imageMovie"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/dot_loading" />
+
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/imageMovie"
             android:layout_width="@dimen/_70sdp"
@@ -38,10 +50,13 @@
             android:layout_marginStart="@dimen/_4sdp"
             android:imageURL="@{movie.posterPath}"
             android:scaleType="centerCrop"
-            tools:src="@mipmap/ic_launcher"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:riv_corner_radius="@dimen/_4sdp" />
+            app:riv_corner_radius="@dimen/_4sdp"
+            tools:src="@mipmap/ic_launcher" />
+
+
+
 
 
         <TextView
@@ -52,11 +67,11 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:ellipsize="end"
-            android:text="@{movie.title}"
             android:fontFamily="@font/ubuntu_medium"
             android:includeFontPadding="false"
             android:maxLines="1"
             android:paddingTop="@dimen/_8sdp"
+            android:text="@{movie.title}"
             android:textColor="@color/colorTextIcon"
             android:textColorHint="@color/colorTextPrimary"
             android:textSize="@dimen/_13sdp"

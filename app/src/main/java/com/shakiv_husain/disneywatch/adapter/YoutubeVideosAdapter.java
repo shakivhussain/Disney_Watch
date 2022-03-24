@@ -1,6 +1,8 @@
 package com.shakiv_husain.disneywatch.adapter;
 
+import android.animation.Animator;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -70,6 +72,31 @@ public class YoutubeVideosAdapter extends RecyclerView.Adapter<YoutubeVideosAdap
                     youTubePlayer.cueVideo(currentVideoId, 0);
                 }
             });
+
+            videosContainerBinding.lottieAnim.addAnimatorListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+                    videosContainerBinding.lottieAnim.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    videosContainerBinding.lottieAnim.setVisibility(View.GONE);
+
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
+
+
         }
 
         void bindVideo(String videoId) {
