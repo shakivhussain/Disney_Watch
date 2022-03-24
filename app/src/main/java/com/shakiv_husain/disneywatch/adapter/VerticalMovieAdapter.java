@@ -53,7 +53,6 @@ public class VerticalMovieAdapter extends RecyclerView.Adapter<VerticalMovieAdap
     }
 
 
-
     public class VerticalMoviesViewHolder extends RecyclerView.ViewHolder {
         VerticalItemContainerBinding verticalItemContainerBinding;
 
@@ -63,7 +62,6 @@ public class VerticalMovieAdapter extends RecyclerView.Adapter<VerticalMovieAdap
         }
 
         private void bindTvShow(MovieModel movieModel) {
-
             verticalItemContainerBinding.setMovie(movieModel);
             verticalItemContainerBinding.executePendingBindings();
             verticalItemContainerBinding.getRoot().setOnClickListener(view -> listener.onTvShowClicked(movieModel));

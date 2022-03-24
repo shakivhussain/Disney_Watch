@@ -9,19 +9,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.shakiv_husain.disneywatch.R;
 import com.shakiv_husain.disneywatch.databinding.ItemContainerSliderBinding;
-import com.shakiv_husain.disneywatch.listeners.MovieListener;
 import com.shakiv_husain.disneywatch.models.images.Backdrop;
 
 import java.util.List;
 
 public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.SliderAdapterViewHolder> {
-    private MovieListener movieListener;
+
     private List<Backdrop> backdrops;
     private LayoutInflater inflater;
 
 
     public ImageSliderAdapter(List<Backdrop> imageUrls) {
-        this.movieListener = movieListener;
         this.backdrops = imageUrls;
     }
 
@@ -62,7 +60,5 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
         public void bindTvShow(String imUrl) {
             itemContainerSliderBinding.setImageUrl(imUrl);
         }
-
     }
-
 }

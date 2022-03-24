@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         initialization();
+
     }
 
     private void initialization() {
@@ -84,11 +85,9 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
 
     private void setTopRatedMovies() {
 
-
         moviesViewModel.getTopRated(1).observe(this, new Observer<MoviesResponse>() {
             @Override
             public void onChanged(MoviesResponse moviesResponse) {
-
 
                 if (moviesResponse != null) {
                     if (moviesResponse.getMovies() != null) {
@@ -96,37 +95,29 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
                     }
                 }
 
-
             }
         });
 
     }
 
-
     private void setAdapterTopRatedMovies(List<MovieModel> movies) {
-
         if (movies.size() > 0) {
-
             activityMainBinding.topRatedMoviesRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             activityMainBinding.topRatedMoviesRV.setAdapter(new VerticalMovieAdapter(movies, this));
         }
     }
 
     private void setUpcomingMovies() {
-
         moviesViewModel.getUpcomingMovies(1).observe(this, new Observer<MoviesResponse>() {
             @Override
             public void onChanged(MoviesResponse moviesResponse) {
                 if (moviesResponse != null) {
-
                     if (moviesResponse.getMovies() != null && moviesResponse.getMovies().size() > 0) {
                         setUpcomingMoviesAdapter(moviesResponse);
                     }
                 }
             }
         });
-
-
     }
 
     private Runnable sliderRunnable = new Runnable() {
@@ -150,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
         activityMainBinding.upcomingMoviesViewPager.setClipChildren(false);
         activityMainBinding.upcomingMoviesViewPager.setOffscreenPageLimit(3);
         activityMainBinding.upcomingMoviesViewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-
 
         CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
         compositePageTransformer.addTransformer(new MarginPageTransformer(40));
@@ -194,33 +184,24 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
     }
 
     private void setPopulerMoviesList() {
-
         toggleLoading();
         moviesViewModel.getPopularMovies(currentPage).observe(this, new Observer<MoviesResponse>() {
             @Override
             public void onChanged(MoviesResponse moviesResponse) {
                 toggleLoading();
-
-
                 if (moviesResponse != null) {
-
                     totalPage = moviesResponse.getTotalPages();
                     if (moviesResponse.getMovies() != null) {
-
                         movieList.addAll(moviesResponse.getMovies());
                         int oldMovieList = movieList.size();
                         movieAdapter.notifyItemRangeInserted(oldMovieList, movieList.size());
                     }
-
                 }
-
             }
         });
     }
 
-
     private void toggleLoading() {
-
         if (currentPage == 1) {
             if (activityMainBinding.getIsLoading() != null && activityMainBinding.getIsLoading()) {
                 activityMainBinding.setIsLoading(false);

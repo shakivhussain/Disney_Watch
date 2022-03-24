@@ -16,6 +16,7 @@ import com.shakiv_husain.disneywatch.models.popular_movie.MovieModel;
 import java.util.List;
 
 public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdapter.UpcomingMovieAdapterViewHolder> {
+
     private MovieListener movieListener;
     private List<MovieModel> modelList;
     private LayoutInflater inflater;
@@ -42,7 +43,7 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
     public void onBindViewHolder(@NonNull UpcomingMovieAdapterViewHolder holder, int position) {
         holder.bindTvShow(modelList.get(position));
 
-        if (position==modelList.size()-2){
+        if (position == modelList.size() - 2) {
             viewPager2.post(runnable);
         }
     }
@@ -79,5 +80,4 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
             notifyDataSetChanged();
         }
     };
-
 }

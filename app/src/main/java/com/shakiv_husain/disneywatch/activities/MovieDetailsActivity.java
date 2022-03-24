@@ -13,7 +13,6 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
@@ -25,12 +24,9 @@ import com.shakiv_husain.disneywatch.adapter.YoutubeVideosAdapter;
 import com.shakiv_husain.disneywatch.databinding.ActivityMovieDetailsBinding;
 import com.shakiv_husain.disneywatch.listeners.MovieListener;
 import com.shakiv_husain.disneywatch.models.Video.VideoModel;
-import com.shakiv_husain.disneywatch.models.Video.VideoResponse;
 import com.shakiv_husain.disneywatch.models.images.Backdrop;
-import com.shakiv_husain.disneywatch.models.images.ImageResponse;
 import com.shakiv_husain.disneywatch.models.movie_details.MovieDetailsResponse;
 import com.shakiv_husain.disneywatch.models.popular_movie.MovieModel;
-import com.shakiv_husain.disneywatch.models.popular_movie.MoviesResponse;
 import com.shakiv_husain.disneywatch.util.Util;
 import com.shakiv_husain.disneywatch.viewmodel.MovieDetailsViewModel;
 import com.shakiv_husain.disneywatch.viewmodel.MovieImagesViewModel;
@@ -71,8 +67,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
             Log.d(TAG, "initialization: " + id);
         }
 
-        Log.d(TAG, "initialization: ");
-
         // View Model
         movieDetailsViewModel = new ViewModelProvider(this).get(MovieDetailsViewModel.class);
         movieImagesViewModel = new ViewModelProvider(this).get(MovieImagesViewModel.class);
@@ -83,13 +77,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
         // Time Initialize
         timer = new Timer(); // This will create a new Thread
 
-        movieDetailsBinding.backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-                finish();
-
-            }
+        movieDetailsBinding.backButton.setOnClickListener(view -> {
+            onBackPressed();
+            finish();
         });
 
         getMovieDetails(id);
@@ -100,18 +90,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
     }
 
     private void getSimilarMovies(String id) {
-
-
-        moviesViewModel.getSimilarMovies(id, 1).observe(this, new Observer<MoviesResponse>() {
-            @Override
-            public void onChanged(MoviesResponse moviesResponse) {
-                Log.d(TAG, "getSimilarMovies: " + moviesResponse.getMovies().size());
-
-
-                setSimilarMoviesAdapter(moviesResponse.getMovies());
-            }
+        moviesViewModel.getSimilarMovies(id, 1).observe(this, moviesResponse -> {
+            Log.d(TAG, "getSimilarMovies: " + moviesResponse.getMovies().size());
+            setSimilarMoviesAdapter(moviesResponse.getMovies());
         });
-
     }
 
     private void setSimilarMoviesAdapter(List<MovieModel> movies) {
@@ -119,24 +101,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
         if (movies.size() > 0) {
             movieDetailsBinding.tvSimilarMovies.setVisibility(View.VISIBLE);
             movieDetailsBinding.similarMoviesVP.setVisibility(View.VISIBLE);
-
-
             movieDetailsBinding.similarMoviesVP.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             movieDetailsBinding.similarMoviesVP.setAdapter(new VerticalMovieAdapter(movies, this));
         }
     }
 
     private void setVideos(String movie_id) {
-
-
-        movieVideosViewModel.getVideos(movie_id).observe(this, new Observer<VideoResponse>() {
-            @Override
-            public void onChanged(VideoResponse videoResponse) {
-                setVideoAdapter(videoResponse.getResults());
-            }
-        });
-
-
+        movieVideosViewModel.getVideos(movie_id).observe(this, videoResponse -> setVideoAdapter(videoResponse.getResults()));
         movieDetailsBinding.videosViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -164,23 +135,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
     }
 
     private void setMovieImages(String id) {
-
-        movieImagesViewModel.getMovieImages(id).observe(this, new Observer<ImageResponse>() {
-            @Override
-            public void onChanged(ImageResponse imageResponse) {
-
+        movieImagesViewModel.getMovieImages(id).observe(this, imageResponse -> {
+            if (imageResponse != null) {
                 if (imageResponse != null) {
-
-                    if (imageResponse != null) {
-
-                        setAdapter(imageResponse.getBackdrops());
-                    }
+                    setAdapter(imageResponse.getBackdrops());
                 }
-
             }
-
         });
-
     }
 
     private void setAdapter(List<Backdrop> imageList) {
@@ -208,13 +169,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
 
         /*After setting the adapter use the timer */
         final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == (imageList.size() / 2) - 1) {
-                    currentPage = 0;
-                }
-                movieDetailsBinding.sliderViewPager.setCurrentItem(currentPage++, true);
+        final Runnable Update = () -> {
+            if (currentPage == (imageList.size() / 2) - 1) {
+                currentPage = 0;
             }
+            movieDetailsBinding.sliderViewPager.setCurrentItem(currentPage++, true);
         };
 
         timer.schedule(new TimerTask() { // task to be scheduled
@@ -228,21 +187,15 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
     private void getMovieDetails(String id) {
 
 
-        movieDetailsViewModel.getMovieDetails(id).observe(this, new Observer<MovieDetailsResponse>() {
-            @Override
-            public void onChanged(MovieDetailsResponse movieDetailsResponse) {
-
-                if (movieDetailsResponse != null) {
-                    movieDetailsBinding.progressBar.setVisibility(View.GONE);
-                    setData(movieDetailsResponse);
-                }
-
+        movieDetailsViewModel.getMovieDetails(id).observe(this, movieDetailsResponse -> {
+            if (movieDetailsResponse != null) {
+                movieDetailsBinding.progressBar.setVisibility(View.GONE);
+                setData(movieDetailsResponse);
             }
         });
     }
 
     private void setData(MovieDetailsResponse movieDetailsResponse) {
-
 
         movieDetailsBinding.ivPoster.setVisibility(View.VISIBLE);
         movieDetailsBinding.tvTitle.setVisibility(View.VISIBLE);
@@ -254,7 +207,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
         movieDetailsBinding.divider2.setVisibility(View.VISIBLE);
         movieDetailsBinding.tvDescription.setVisibility(View.VISIBLE);
         movieDetailsBinding.tvReadMore.setVisibility(View.VISIBLE);
-
 
         if (movieDetailsResponse.getPosterPath() != null)
             movieDetailsBinding.setImageUrl(movieDetailsResponse.getPosterPath());
@@ -283,19 +235,16 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
 
         }
 
-        movieDetailsBinding.tvReadMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        movieDetailsBinding.tvReadMore.setOnClickListener(view -> {
 
-                if (movieDetailsBinding.tvReadMore.getText().toString().equals("Read More")) {
-                    movieDetailsBinding.tvDescription.setMaxLines(Integer.MAX_VALUE);
-                    movieDetailsBinding.tvDescription.setEllipsize(null);
-                    movieDetailsBinding.tvReadMore.setText("Read Less");
-                } else {
-                    movieDetailsBinding.tvDescription.setMaxLines(4);
-                    movieDetailsBinding.tvDescription.setEllipsize(TextUtils.TruncateAt.END);
-                    movieDetailsBinding.tvReadMore.setText("Read More");
-                }
+            if (movieDetailsBinding.tvReadMore.getText().toString().equals("Read More")) {
+                movieDetailsBinding.tvDescription.setMaxLines(Integer.MAX_VALUE);
+                movieDetailsBinding.tvDescription.setEllipsize(null);
+                movieDetailsBinding.tvReadMore.setText("Read Less");
+            } else {
+                movieDetailsBinding.tvDescription.setMaxLines(4);
+                movieDetailsBinding.tvDescription.setEllipsize(TextUtils.TruncateAt.END);
+                movieDetailsBinding.tvReadMore.setText("Read More");
             }
         });
 

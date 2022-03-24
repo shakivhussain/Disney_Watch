@@ -1,7 +1,6 @@
 package com.shakiv_husain.disneywatch.adapter;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -17,6 +16,7 @@ import com.shakiv_husain.disneywatch.models.popular_movie.MovieModel;
 import java.util.List;
 
 public class ComingSoonSliderAdapter extends RecyclerView.Adapter<ComingSoonSliderAdapter.SliderAdapterViewHolder> {
+
     private MovieListener movieListener;
     private List<MovieModel> moviesList;
     private LayoutInflater inflater;
@@ -71,12 +71,7 @@ public class ComingSoonSliderAdapter extends RecyclerView.Adapter<ComingSoonSlid
             itemContainerSliderBinding.setName(movieModel.getTitle());
             itemContainerSliderBinding.setReleaseDate(movieModel.getReleaseDate());
             itemContainerSliderBinding.executePendingBindings();
-            itemContainerSliderBinding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    movieListener.onTvShowClicked(movieModel);
-                }
-            });
+            itemContainerSliderBinding.getRoot().setOnClickListener(view -> movieListener.onTvShowClicked(movieModel));
         }
 
     }
@@ -88,6 +83,4 @@ public class ComingSoonSliderAdapter extends RecyclerView.Adapter<ComingSoonSlid
             notifyDataSetChanged();
         }
     };
-
-
 }

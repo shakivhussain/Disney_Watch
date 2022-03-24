@@ -39,12 +39,6 @@ public class YoutubeVideosAdapter extends RecyclerView.Adapter<YoutubeVideosAdap
         VideosContainerBinding videosContainerBinding = DataBindingUtil.inflate(layoutInflater, R.layout.videos_container, parent, false);
         lifecycle.addObserver(videosContainerBinding.youtubePlayer);
         return new YoutubeVideosAdapterViewHolder(videosContainerBinding);
-
-
-//        YouTubePlayerView youTubePlayerView = (YouTubePlayerView) LayoutInflater.from(parent.getContext()).inflate(R.layout.videos_container, parent, false);
-//        lifecycle.addObserver(youTubePlayerView);
-//        return new YoutubeVideosAdapterViewHolder(youTubePlayerView);
-
     }
 
     @Override
@@ -76,9 +70,7 @@ public class YoutubeVideosAdapter extends RecyclerView.Adapter<YoutubeVideosAdap
                     youTubePlayer.cueVideo(currentVideoId, 0);
                 }
             });
-
         }
-
 
         void bindVideo(String videoId) {
             currentVideoId = videoId;
