@@ -4,6 +4,8 @@ import static com.shakiv_husain.disneywatch.util.Util.setCurrentSliderIndicator;
 import static com.shakiv_husain.disneywatch.util.constants.AppConstants.ID;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -30,6 +32,7 @@ import com.shakiv_husain.disneywatch.models.popular_movie.MovieModel;
 import com.shakiv_husain.disneywatch.models.popular_movie.MoviesResponse;
 import com.shakiv_husain.disneywatch.util.Log;
 import com.shakiv_husain.disneywatch.util.Util;
+import com.shakiv_husain.disneywatch.util.network_connection.CheckNetworkBroadcastReciever;
 import com.shakiv_husain.disneywatch.viewmodel.MoviesViewModel;
 
 import java.util.ArrayList;
@@ -59,6 +62,10 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
 
     private void initialization() {
 
+
+        CheckNetworkBroadcastReciever networkBroadcastReciever = new CheckNetworkBroadcastReciever();
+        registerReceiver(networkBroadcastReciever, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
         moviesViewModel = new ViewModelProvider(this).get(MoviesViewModel.class);
         movieList = new ArrayList<>();
         movieAdapter = new MovieAdapter(this, movieList);
@@ -82,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
         setUpcomingMovies();
         setTopRatedMovies();
     }
+
 
     private void setTopRatedMovies() {
 
