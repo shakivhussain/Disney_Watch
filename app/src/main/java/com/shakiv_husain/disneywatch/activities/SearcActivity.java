@@ -33,12 +33,11 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
 
     private ActivitySearcBinding searcBinding;
     private MoviesViewModel moviesViewModel;
-    private int currentPageMovies = 1;
-    private int currentPageTvShow = 1;
-    private List<MovieModel> movieModelList = new ArrayList<>();
-    private List<MovieModel> tvShowsModelList = new ArrayList<>();
-    private VerticalMovieAdapter movieAdaper;
-    private VerticalMovieAdapter tvShowsAdapter;
+    private int currentPageMovies = 1, currentPageTvShow = 1, currentPageCollection = 1;
+    private List<MovieModel> movieModelList;
+    private List<MovieModel> tvShowsModelList;
+    private List<MovieModel> collections;
+    private VerticalMovieAdapter movieAdaper, tvShowsAdapter, collectionAdapter;
     private Timer timer;
 
     @Override
@@ -53,7 +52,9 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
     private void initialize() {
 
         moviesViewModel = new ViewModelProvider(this).get(MoviesViewModel.class);
-
+        movieModelList = new ArrayList<>();
+        tvShowsModelList = new ArrayList<>();
+        collections = new ArrayList<>();
 
         searcBinding.backButton.setOnClickListener(view -> onBackPressed());
 
@@ -65,6 +66,11 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
         tvShowsAdapter = new VerticalMovieAdapter(tvShowsModelList, this);
         searcBinding.tvShowsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         searcBinding.tvShowsRecyclerView.setAdapter(tvShowsAdapter);
+
+        // Collections
+        collectionAdapter = new VerticalMovieAdapter(collections, this);
+        searcBinding.collectionsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        searcBinding.collectionsRecyclerView.setAdapter(collectionAdapter);
 
         searcBinding.inputSearch.requestFocus();
         searcBinding.inputSearch.addTextChangedListener(new TextWatcher() {
@@ -91,17 +97,20 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
                             new Handler(Looper.getMainLooper()).post(() -> {
                                 currentPageMovies = 1;
                                 currentPageTvShow = 1;
+                                currentPageCollection = 1;
                                 setSearchTvShows(editable.toString());
                                 setSearchMovies(editable.toString());
+                                setSearchCollection(editable.toString());
                             });
                         }
                     }, 500);
                 } else {
-
                     tvShowsModelList.clear();
                     movieModelList.clear();
+                    collections.clear();
                     tvShowsAdapter.notifyDataSetChanged();
                     movieAdaper.notifyDataSetChanged();
+                    collectionAdapter.notifyDataSetChanged();
                 }
 
             }
@@ -129,16 +138,14 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
             }
         });
 
-    }
 
-    private void setSearchTvShows(String query) {
-
-        moviesViewModel.searchTvShows(currentPageTvShow, query).observe(this, moviesResponse -> {
-            if (moviesResponse != null) {
-                if (moviesResponse.getMovies() != null) {
-                    int count = tvShowsModelList.size();
-                    tvShowsModelList.addAll(moviesResponse.getMovies());
-                    tvShowsAdapter.notifyItemRangeChanged(count, tvShowsModelList.size());
+        searcBinding.collectionsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!searcBinding.collectionsRecyclerView.canScrollVertically(1)) {
+                    currentPageCollection += 1;
+                    setSearchCollection(searcBinding.inputSearch.getText().toString());
                 }
             }
         });
@@ -146,21 +153,58 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
 
     }
 
-    private void setSearchMovies(String query) {
-
-        searcBinding.progresView.setVisibility(View.VISIBLE);
-        moviesViewModel.searchMovies(currentPageMovies, query).observe(this, moviesResponse -> {
-            if (moviesResponse != null) {
-
-                searcBinding.recyclerViewConatainer.setVisibility(View.VISIBLE);
-                searcBinding.emptyPlaceHolder.setVisibility(View.GONE);
-                searcBinding.progresView.setVisibility(View.GONE);
-
-                if (moviesResponse.getMovies() != null) {
-                    int count = movieModelList.size();
-                    movieModelList.addAll(moviesResponse.getMovies());
-                    movieAdaper.notifyItemRangeChanged(count, movieModelList.size());
+    private void setSearchCollection(String query) {
+        moviesViewModel.searchCollections(currentPageCollection, query).observe(this, moviesResponse -> {
+            try {
+                if (moviesResponse != null) {
+                    if (moviesResponse.getMovies() != null) {
+                        if (moviesResponse.getMovies() != null) {
+                            int count = collections.size();
+                            collections.addAll(moviesResponse.getMovies());
+                            collectionAdapter.notifyItemRangeChanged(count, collections.size());
+                        }
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void setSearchTvShows(String query) {
+
+        moviesViewModel.searchTvShows(currentPageTvShow, query).observe(this, moviesResponse -> {
+            try {
+                if (moviesResponse != null) {
+                    if (moviesResponse.getMovies() != null) {
+                        int count = tvShowsModelList.size();
+                        tvShowsModelList.addAll(moviesResponse.getMovies());
+                        tvShowsAdapter.notifyItemRangeChanged(count, tvShowsModelList.size());
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+
+    }
+
+    private void setSearchMovies(String query) {
+        moviesViewModel.searchMovies(currentPageMovies, query).observe(this, moviesResponse -> {
+            try {
+                if (moviesResponse != null) {
+                    searcBinding.recyclerViewConatainer.setVisibility(View.VISIBLE);
+                    searcBinding.emptyPlaceHolder.setVisibility(View.GONE);
+
+                    if (moviesResponse.getMovies() != null) {
+                        int count = movieModelList.size();
+                        movieModelList.addAll(moviesResponse.getMovies());
+                        movieAdaper.notifyItemRangeChanged(count, movieModelList.size());
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }

@@ -153,7 +153,6 @@ public class MoviesRepository {
         return movies;
     }
 
-
     public LiveData<MoviesResponse> searchTvShows(int page, String query) {
 
         MutableLiveData<MoviesResponse> tvShows = new MutableLiveData<>();
@@ -177,5 +176,31 @@ public class MoviesRepository {
         });
         return tvShows;
     }
+
+
+    public LiveData<MoviesResponse> searchCollections(int page, String query) {
+
+        MutableLiveData<MoviesResponse> collections = new MutableLiveData<>();
+
+
+        apiServices.searchCollections(page, query, API_KEY).enqueue(new Callback<MoviesResponse>() {
+            @Override
+            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                if (response.isSuccessful()) {
+                    collections.postValue(response.body());
+                } else {
+                    Log.e(TAG, response.toString());
+                    collections.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                Log.e(TAG, t.getMessage());
+            }
+        });
+        return collections;
+    }
+
 
 }

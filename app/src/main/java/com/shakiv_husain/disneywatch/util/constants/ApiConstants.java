@@ -27,5 +27,6 @@ public class ApiConstants {
     // Search
     public static final String SEARCH_MOVIES = "search/movie";
     public static final String SEARCH_TV_SHOWS = "search/tv";
+    public static final String SEARCH_COLLECTIONS = "search/multi";
 
 }

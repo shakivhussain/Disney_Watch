@@ -100,19 +100,22 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
 
 
     private void setTopRatedMovies() {
+        try {
+            moviesViewModel.getTopRated(1).observe(this, new Observer<MoviesResponse>() {
+                @Override
+                public void onChanged(MoviesResponse moviesResponse) {
 
-        moviesViewModel.getTopRated(1).observe(this, new Observer<MoviesResponse>() {
-            @Override
-            public void onChanged(MoviesResponse moviesResponse) {
-
-                if (moviesResponse != null) {
-                    if (moviesResponse.getMovies() != null) {
-                        setAdapterTopRatedMovies(moviesResponse.getMovies());
+                    if (moviesResponse != null) {
+                        if (moviesResponse.getMovies() != null) {
+                            setAdapterTopRatedMovies(moviesResponse.getMovies());
+                        }
                     }
-                }
 
-            }
-        });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -124,14 +127,15 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
     }
 
     private void setUpcomingMovies() {
-        moviesViewModel.getUpcomingMovies(1).observe(this, new Observer<MoviesResponse>() {
-            @Override
-            public void onChanged(MoviesResponse moviesResponse) {
+        moviesViewModel.getUpcomingMovies(1).observe(this, moviesResponse -> {
+            try {
                 if (moviesResponse != null) {
                     if (moviesResponse.getMovies() != null && moviesResponse.getMovies().size() > 0) {
                         setUpcomingMoviesAdapter(moviesResponse);
                     }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
@@ -201,9 +205,8 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
 
     private void setPopulerMoviesList() {
         toggleLoading();
-        moviesViewModel.getPopularMovies(currentPage).observe(this, new Observer<MoviesResponse>() {
-            @Override
-            public void onChanged(MoviesResponse moviesResponse) {
+        moviesViewModel.getPopularMovies(currentPage).observe(this, moviesResponse -> {
+            try {
                 toggleLoading();
                 if (moviesResponse != null) {
                     totalPage = moviesResponse.getTotalPages();
@@ -213,6 +216,8 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
                         movieAdapter.notifyItemRangeInserted(oldMovieList, movieList.size());
                     }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }

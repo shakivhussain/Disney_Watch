@@ -164,6 +164,34 @@
                 tools:listitem="@layout/vertical_item_container" />
 
 
+            <TextView
+                android:id="@+id/titleTvCollection"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/_4sdp"
+                android:fontFamily="@font/ubuntu_bold"
+                android:includeFontPadding="false"
+                android:text="@string/collections_1000"
+                android:textColor="@color/colorTextIcon"
+                android:textSize="@dimen/_14sdp"
+                app:drawableStartCompat="@drawable/ic_movie"
+                app:drawableTint="@color/colorTextIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvShowsRecyclerView" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/collectionsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_170sdp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleTvCollection"
+                tools:listitem="@layout/vertical_item_container" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
@@ -177,21 +205,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="gone" />
-
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/progresView"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
-            android:layout_marginTop="@dimen/_16sdp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchCardview"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/dot_loading" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

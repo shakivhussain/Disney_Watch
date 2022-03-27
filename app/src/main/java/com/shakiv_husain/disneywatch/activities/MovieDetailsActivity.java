@@ -91,12 +91,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
 
     private void getSimilarMovies(String id) {
         moviesViewModel.getSimilarMovies(id, 1).observe(this, moviesResponse -> {
-//            Log.d(TAG, "getSimilarMovies: " + moviesResponse.getMovies().size());
-
-            if (moviesResponse != null) {
-                if (moviesResponse.getMovies() != null) {
-                    setSimilarMoviesAdapter(moviesResponse.getMovies());
+            try {
+                if (moviesResponse != null) {
+                    if (moviesResponse.getMovies() != null) {
+                        setSimilarMoviesAdapter(moviesResponse.getMovies());
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
@@ -115,14 +117,18 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
 
         movieVideosViewModel.getVideos(movie_id).observe(this, videoResponse ->
                 {
-                    if (videoResponse != null) {
-                        if (videoResponse.getResults() != null) {
-                            setVideoAdapter(videoResponse.getResults());
-                        } else {
-                            movieDetailsBinding.tvVideosTrailer.setVisibility(View.GONE);
-                            movieDetailsBinding.videosViewPager.setVisibility(View.GONE);
-                            movieDetailsBinding.videosIndicator.setVisibility(View.GONE);
+                    try {
+                        if (videoResponse != null) {
+                            if (videoResponse.getResults() != null) {
+                                setVideoAdapter(videoResponse.getResults());
+                            } else {
+                                movieDetailsBinding.tvVideosTrailer.setVisibility(View.GONE);
+                                movieDetailsBinding.videosViewPager.setVisibility(View.GONE);
+                                movieDetailsBinding.videosIndicator.setVisibility(View.GONE);
+                            }
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
         );
@@ -154,10 +160,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
 
     private void setMovieImages(String id) {
         movieImagesViewModel.getMovieImages(id).observe(this, imageResponse -> {
-            if (imageResponse != null) {
-                if (imageResponse.getBackdrops() != null) {
-                    setAdapter(imageResponse.getBackdrops());
+            try {
+                if (imageResponse != null) {
+                    if (imageResponse.getBackdrops() != null) {
+                        setAdapter(imageResponse.getBackdrops());
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
@@ -205,8 +215,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
     private void getMovieDetails(String id) {
         movieDetailsViewModel.getMovieDetails(id).observe(this, movieDetailsResponse -> {
             if (movieDetailsResponse != null) {
-                movieDetailsBinding.progressBar.setVisibility(View.GONE);
-                setData(movieDetailsResponse);
+                try {
+                    movieDetailsBinding.progressBar.setVisibility(View.GONE);
+                    setData(movieDetailsResponse);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
