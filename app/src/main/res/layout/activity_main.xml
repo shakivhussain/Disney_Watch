@@ -93,7 +93,10 @@
                 android:textSize="@dimen/_14sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/upcomingMoviesViewPager" />
+                app:layout_constraintTop_toBottomOf="@id/upcomingMoviesViewPager"
+                android:drawablePadding="@dimen/_4sdp"
+                app:drawableStartCompat="@drawable/ic_movie"
+                app:drawableTint="@color/colorTextIcon" />
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -115,6 +118,9 @@
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:fontFamily="@font/ubuntu_bold"
+                android:drawablePadding="@dimen/_4sdp"
+                app:drawableStartCompat="@drawable/ic_movie"
+                app:drawableTint="@color/colorTextIcon"
                 android:includeFontPadding="false"
                 android:text="@string/coming_soon"
                 android:textColor="@color/colorTextIcon"

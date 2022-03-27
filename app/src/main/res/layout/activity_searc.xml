@@ -95,27 +95,31 @@
         </com.google.android.material.card.MaterialCardView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/recycler_view_conatainer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/colorPrimaryDark"
             android:paddingStart="@dimen/_8sdp"
             android:paddingTop="@dimen/_16sdp"
             android:paddingEnd="@dimen/_8sdp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchCardview">
+            app:layout_constraintTop_toBottomOf="@id/searchCardview"
+            tools:visibility="visible">
 
 
             <TextView
                 android:id="@+id/titleTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_movie"
-                android:drawableTint="@color/colorTextIcon"
+                android:drawablePadding="@dimen/_4sdp"
                 android:fontFamily="@font/ubuntu_bold"
                 android:includeFontPadding="false"
-                android:text="Movies ( 1000+ )"
+                android:text="@string/movies_1000"
                 android:textColor="@color/colorTextIcon"
                 android:textSize="@dimen/_14sdp"
+                app:drawableStartCompat="@drawable/ic_movie"
+                app:drawableTint="@color/colorTextIcon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -136,13 +140,14 @@
                 android:id="@+id/titleTvShows"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_movie"
-                android:drawableTint="@color/colorTextIcon"
+                android:drawablePadding="@dimen/_4sdp"
                 android:fontFamily="@font/ubuntu_bold"
                 android:includeFontPadding="false"
-                android:text="Tv Shows ( 1000+ )"
+                android:text="@string/tv_shows_1000"
                 android:textColor="@color/colorTextIcon"
                 android:textSize="@dimen/_14sdp"
+                app:drawableStartCompat="@drawable/ic_movie"
+                app:drawableTint="@color/colorTextIcon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/moviesRecyclerView" />
@@ -160,6 +165,32 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/emptyPlaceHolder"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_search_illus"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/progresView"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchCardview"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/dot_loading" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

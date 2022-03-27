@@ -9,4 +9,6 @@
     <string name="top_rated">Top Rated</string>
     <string name="coming_soon">Coming Soon</string>
     <string name="search_movies">Search Movies</string>
+    <string name="movies_1000">Movies ( 1000+ )</string>
+    <string name="tv_shows_1000">Tv Shows ( 1000+ )</string>
 </resources>

@@ -13,7 +13,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +22,6 @@ import com.shakiv_husain.disneywatch.adapter.VerticalMovieAdapter;
 import com.shakiv_husain.disneywatch.databinding.ActivitySearcBinding;
 import com.shakiv_husain.disneywatch.listeners.MovieListener;
 import com.shakiv_husain.disneywatch.models.popular_movie.MovieModel;
-import com.shakiv_husain.disneywatch.models.popular_movie.MoviesResponse;
 import com.shakiv_husain.disneywatch.viewmodel.MoviesViewModel;
 
 import java.util.ArrayList;
@@ -150,8 +148,14 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
 
     private void setSearchMovies(String query) {
 
+        searcBinding.progresView.setVisibility(View.VISIBLE);
         moviesViewModel.searchMovies(currentPageMovies, query).observe(this, moviesResponse -> {
             if (moviesResponse != null) {
+
+                searcBinding.recyclerViewConatainer.setVisibility(View.VISIBLE);
+                searcBinding.emptyPlaceHolder.setVisibility(View.GONE);
+                searcBinding.progresView.setVisibility(View.GONE);
+
                 if (moviesResponse.getMovies() != null) {
                     int count = movieModelList.size();
                     movieModelList.addAll(moviesResponse.getMovies());
