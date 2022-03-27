@@ -79,7 +79,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
 
         movieDetailsBinding.backButton.setOnClickListener(view -> {
             onBackPressed();
-            finish();
         });
 
         getMovieDetails(id);
@@ -89,10 +88,16 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
 
     }
 
+
     private void getSimilarMovies(String id) {
         moviesViewModel.getSimilarMovies(id, 1).observe(this, moviesResponse -> {
-            Log.d(TAG, "getSimilarMovies: " + moviesResponse.getMovies().size());
-            setSimilarMoviesAdapter(moviesResponse.getMovies());
+//            Log.d(TAG, "getSimilarMovies: " + moviesResponse.getMovies().size());
+
+            if (moviesResponse != null) {
+                if (moviesResponse.getMovies() != null) {
+                    setSimilarMoviesAdapter(moviesResponse.getMovies());
+                }
+            }
         });
     }
 
@@ -107,7 +112,20 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
     }
 
     private void setVideos(String movie_id) {
-        movieVideosViewModel.getVideos(movie_id).observe(this, videoResponse -> setVideoAdapter(videoResponse.getResults()));
+
+        movieVideosViewModel.getVideos(movie_id).observe(this, videoResponse ->
+                {
+                    if (videoResponse != null) {
+                        if (videoResponse.getResults() != null) {
+                            setVideoAdapter(videoResponse.getResults());
+                        } else {
+                            movieDetailsBinding.tvVideosTrailer.setVisibility(View.GONE);
+                            movieDetailsBinding.videosViewPager.setVisibility(View.GONE);
+                            movieDetailsBinding.videosIndicator.setVisibility(View.GONE);
+                        }
+                    }
+                }
+        );
         movieDetailsBinding.videosViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -137,7 +155,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
     private void setMovieImages(String id) {
         movieImagesViewModel.getMovieImages(id).observe(this, imageResponse -> {
             if (imageResponse != null) {
-                if (imageResponse != null) {
+                if (imageResponse.getBackdrops() != null) {
                     setAdapter(imageResponse.getBackdrops());
                 }
             }
@@ -185,8 +203,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
     }
 
     private void getMovieDetails(String id) {
-
-
         movieDetailsViewModel.getMovieDetails(id).observe(this, movieDetailsResponse -> {
             if (movieDetailsResponse != null) {
                 movieDetailsBinding.progressBar.setVisibility(View.GONE);
@@ -256,10 +272,19 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
         timer.cancel();
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        finish();
+    }
+
     @Override
     public void onTvShowClicked(MovieModel movieModel) {
         Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
         intent.putExtra(ID, movieModel.getId());
         startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

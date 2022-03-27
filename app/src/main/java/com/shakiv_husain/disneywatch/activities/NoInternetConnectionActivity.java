@@ -55,6 +55,7 @@ public class NoInternetConnectionActivity extends AppCompatActivity {
         if (NetworkUtil.mCheckNetworkStatus(NoInternetConnectionActivity.this)) {
             super.onBackPressed();
             Log.d("TAG", "onBackPressed: 1");
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             finish();
         } else {
             return;

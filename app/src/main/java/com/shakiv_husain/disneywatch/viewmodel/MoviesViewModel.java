@@ -40,4 +40,9 @@ public class MoviesViewModel extends ViewModel {
     public LiveData<MoviesResponse> searchMovies(int page, String query) {
         return moviesRepository.searchMovies(page, query);
     }
+
+
+    public LiveData<MoviesResponse> searchTvShows(int page, String query) {
+        return moviesRepository.searchTvShows(page, query);
+    }
 }

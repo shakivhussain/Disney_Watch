@@ -153,4 +153,29 @@ public class MoviesRepository {
         return movies;
     }
 
+
+    public LiveData<MoviesResponse> searchTvShows(int page, String query) {
+
+        MutableLiveData<MoviesResponse> tvShows = new MutableLiveData<>();
+
+        apiServices.searchTvShows(page, query, API_KEY).enqueue(new Callback<MoviesResponse>() {
+            @Override
+            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                Log.d(TAG, call.request().url().toString());
+                if (response.isSuccessful()) {
+                    tvShows.postValue(response.body());
+                } else {
+                    tvShows.postValue(null);
+                    Log.e(TAG, response.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                Log.e(TAG, t.getMessage());
+            }
+        });
+        return tvShows;
+    }
+
 }

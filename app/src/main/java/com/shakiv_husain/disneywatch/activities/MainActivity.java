@@ -239,10 +239,18 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
         super.onDestroy();
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
+
     @Override
     public void onTvShowClicked(MovieModel movieModel) {
         Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
         intent.putExtra(ID, movieModel.getId());
         startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

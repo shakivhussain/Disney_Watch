@@ -1,11 +1,14 @@
 package com.shakiv_husain.disneywatch.activities;
 
+import static com.shakiv_husain.disneywatch.util.constants.AppConstants.ID;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.Toast;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,9 +35,12 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
 
     private ActivitySearcBinding searcBinding;
     private MoviesViewModel moviesViewModel;
-    private int currentPage = 1;
+    private int currentPageMovies = 1;
+    private int currentPageTvShow = 1;
     private List<MovieModel> movieModelList = new ArrayList<>();
+    private List<MovieModel> tvShowsModelList = new ArrayList<>();
     private VerticalMovieAdapter movieAdaper;
+    private VerticalMovieAdapter tvShowsAdapter;
     private Timer timer;
 
     @Override
@@ -42,9 +48,7 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
         super.onCreate(savedInstanceState);
         searcBinding = DataBindingUtil.setContentView(this, R.layout.activity_searc);
 
-
         initialize();
-
 
     }
 
@@ -52,9 +56,17 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
 
         moviesViewModel = new ViewModelProvider(this).get(MoviesViewModel.class);
 
+
+        searcBinding.backButton.setOnClickListener(view -> onBackPressed());
+
         movieAdaper = new VerticalMovieAdapter(movieModelList, this);
         searcBinding.moviesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         searcBinding.moviesRecyclerView.setAdapter(movieAdaper);
+
+        // Tv Shows
+        tvShowsAdapter = new VerticalMovieAdapter(tvShowsModelList, this);
+        searcBinding.tvShowsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        searcBinding.tvShowsRecyclerView.setAdapter(tvShowsAdapter);
 
         searcBinding.inputSearch.requestFocus();
         searcBinding.inputSearch.addTextChangedListener(new TextWatcher() {
@@ -79,11 +91,19 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
                         @Override
                         public void run() {
                             new Handler(Looper.getMainLooper()).post(() -> {
-                                currentPage = 1;
+                                currentPageMovies = 1;
+                                currentPageTvShow = 1;
+                                setSearchTvShows(editable.toString());
                                 setSearchMovies(editable.toString());
                             });
                         }
-                    }, 400);
+                    }, 500);
+                } else {
+
+                    tvShowsModelList.clear();
+                    movieModelList.clear();
+                    tvShowsAdapter.notifyDataSetChanged();
+                    movieAdaper.notifyDataSetChanged();
                 }
 
             }
@@ -94,36 +114,65 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (!searcBinding.moviesRecyclerView.canScrollVertically(1)) {
-                    currentPage += 1;
+                    currentPageMovies += 1;
                     setSearchMovies(searcBinding.inputSearch.getText().toString());
                 }
             }
         });
 
+        searcBinding.tvShowsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!searcBinding.moviesRecyclerView.canScrollVertically(1)) {
+                    currentPageTvShow += 1;
+                    setSearchTvShows(searcBinding.inputSearch.getText().toString());
+                }
+            }
+        });
+
+    }
+
+    private void setSearchTvShows(String query) {
+
+        moviesViewModel.searchTvShows(currentPageTvShow, query).observe(this, moviesResponse -> {
+            if (moviesResponse != null) {
+                if (moviesResponse.getMovies() != null) {
+                    int count = tvShowsModelList.size();
+                    tvShowsModelList.addAll(moviesResponse.getMovies());
+                    tvShowsAdapter.notifyItemRangeChanged(count, tvShowsModelList.size());
+                }
+            }
+        });
+
+
     }
 
     private void setSearchMovies(String query) {
 
-        moviesViewModel.searchMovies(currentPage, query).observe(this, new Observer<MoviesResponse>() {
-            @Override
-            public void onChanged(MoviesResponse moviesResponse) {
-                if (moviesResponse != null) {
-                    if (moviesResponse.getMovies() != null) {
-                        int count = movieModelList.size();
-                        movieModelList.addAll(moviesResponse.getMovies());
-                        movieAdaper.notifyItemRangeChanged(count, movieModelList.size());
-                    }
+        moviesViewModel.searchMovies(currentPageMovies, query).observe(this, moviesResponse -> {
+            if (moviesResponse != null) {
+                if (moviesResponse.getMovies() != null) {
+                    int count = movieModelList.size();
+                    movieModelList.addAll(moviesResponse.getMovies());
+                    movieAdaper.notifyItemRangeChanged(count, movieModelList.size());
                 }
             }
         });
     }
 
-    private void setData(List<MovieModel> movies) {
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override
     public void onTvShowClicked(MovieModel movieModel) {
-        Toast.makeText(this, "Name : " + movieModel.getTitle(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
+        intent.putExtra(ID, movieModel.getId());
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }
