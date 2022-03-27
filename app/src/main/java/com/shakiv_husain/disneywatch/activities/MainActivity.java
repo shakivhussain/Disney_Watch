@@ -1,7 +1,7 @@
 package com.shakiv_husain.disneywatch.activities;
 
 import static com.shakiv_husain.disneywatch.util.Util.setCurrentSliderIndicator;
-import static com.shakiv_husain.disneywatch.util.constants.AppConstants.ID;
+import static com.shakiv_husain.disneywatch.util.constants.AppConstants.MOVIE_MODEL;
 
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -28,8 +28,8 @@ import com.shakiv_husain.disneywatch.adapter.UpcomingMovieAdapter;
 import com.shakiv_husain.disneywatch.adapter.VerticalMovieAdapter;
 import com.shakiv_husain.disneywatch.databinding.ActivityMainBinding;
 import com.shakiv_husain.disneywatch.listeners.MovieListener;
-import com.shakiv_husain.disneywatch.models.popular_movie.MovieModel;
-import com.shakiv_husain.disneywatch.models.popular_movie.MoviesResponse;
+import com.shakiv_husain.disneywatch.models.movie.MovieModel;
+import com.shakiv_husain.disneywatch.models.movie.MoviesResponse;
 import com.shakiv_husain.disneywatch.util.Log;
 import com.shakiv_husain.disneywatch.util.Util;
 import com.shakiv_husain.disneywatch.util.network_connection.CheckNetworkBroadcastReciever;
@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
     @Override
     public void onTvShowClicked(MovieModel movieModel) {
         Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
-        intent.putExtra(ID, movieModel.getId());
+        intent.putExtra(MOVIE_MODEL, movieModel);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }

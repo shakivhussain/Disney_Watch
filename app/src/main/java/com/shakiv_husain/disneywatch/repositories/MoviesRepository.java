@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.shakiv_husain.disneywatch.models.popular_movie.MoviesResponse;
+import com.shakiv_husain.disneywatch.models.movie.MoviesResponse;
 import com.shakiv_husain.disneywatch.network.ApiClient;
 import com.shakiv_husain.disneywatch.network.ApiServices;
 import com.shakiv_husain.disneywatch.util.Log;

@@ -23,7 +23,7 @@ import com.shakiv_husain.disneywatch.R;
 import com.shakiv_husain.disneywatch.adapter.VerticalMovieAdapter;
 import com.shakiv_husain.disneywatch.databinding.ActivitySearcBinding;
 import com.shakiv_husain.disneywatch.listeners.MovieListener;
-import com.shakiv_husain.disneywatch.models.popular_movie.MovieModel;
+import com.shakiv_husain.disneywatch.models.movie.MovieModel;
 import com.shakiv_husain.disneywatch.viewmodel.MoviesViewModel;
 
 import java.util.ArrayList;

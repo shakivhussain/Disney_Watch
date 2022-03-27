@@ -18,7 +18,7 @@ import static com.shakiv_husain.disneywatch.util.constants.ApiConstants.VIDEOS;
 import com.shakiv_husain.disneywatch.models.Video.VideoResponse;
 import com.shakiv_husain.disneywatch.models.images.ImageResponse;
 import com.shakiv_husain.disneywatch.models.movie_details.MovieDetailsResponse;
-import com.shakiv_husain.disneywatch.models.popular_movie.MoviesResponse;
+import com.shakiv_husain.disneywatch.models.movie.MoviesResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

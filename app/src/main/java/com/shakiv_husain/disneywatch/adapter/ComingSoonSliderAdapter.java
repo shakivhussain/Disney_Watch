@@ -11,7 +11,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.shakiv_husain.disneywatch.R;
 import com.shakiv_husain.disneywatch.databinding.ItemContainerSliderBinding;
 import com.shakiv_husain.disneywatch.listeners.MovieListener;
-import com.shakiv_husain.disneywatch.models.popular_movie.MovieModel;
+import com.shakiv_husain.disneywatch.models.movie.MovieModel;
 
 import java.util.List;
 

@@ -1,24 +1,29 @@
-package com.shakiv_husain.disneywatch.models.popular_movie;
+package com.shakiv_husain.disneywatch.models.movie;
+
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.io.Serializable;
 
-public class MovieModel {
+@Entity(tableName = "movie_model")
+public class MovieModel implements Serializable {
 
+    @SerializedName("id")
+    @Expose
+    @PrimaryKey
+    public int id ;
     @SerializedName("adult")
     @Expose
     public boolean adult;
     @SerializedName("backdrop_path")
     @Expose
     public String backdropPath;
-    @SerializedName("genre_ids")
-    @Expose
-    public List<Integer> genreIds = null;
-    @SerializedName("id")
-    @Expose
-    public String id;
+    //    @SerializedName("genre_ids")
+//    @Expose
+//    public List<Integer> genreIds = null;
     @SerializedName("original_language")
     @Expose
     public String originalLanguage;
@@ -59,11 +64,11 @@ public class MovieModel {
         return backdropPath;
     }
 
-    public List<Integer> getGenreIds() {
-        return genreIds;
-    }
+//    public List<Integer> getGenreIds() {
+//        return genreIds;
+//    }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -113,7 +118,6 @@ public class MovieModel {
         return "Result{" +
                 "adult=" + adult +
                 ", backdropPath='" + backdropPath + '\'' +
-                ", genreIds=" + genreIds +
                 ", id=" + id +
                 ", originalLanguage='" + originalLanguage + '\'' +
                 ", originalTitle='" + originalTitle + '\'' +

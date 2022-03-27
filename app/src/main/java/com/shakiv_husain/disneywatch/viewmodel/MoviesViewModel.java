@@ -3,7 +3,7 @@ package com.shakiv_husain.disneywatch.viewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.shakiv_husain.disneywatch.models.popular_movie.MoviesResponse;
+import com.shakiv_husain.disneywatch.models.movie.MoviesResponse;
 import com.shakiv_husain.disneywatch.repositories.MoviesRepository;
 
 public class MoviesViewModel extends ViewModel {

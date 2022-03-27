@@ -1,5 +1,5 @@
 
-package com.shakiv_husain.disneywatch.models.popular_movie;
+package com.shakiv_husain.disneywatch.models.movie;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

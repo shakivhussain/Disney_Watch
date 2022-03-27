@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.shakiv_husain.disneywatch.R;
 import com.shakiv_husain.disneywatch.databinding.MovieItemMainBinding;
 import com.shakiv_husain.disneywatch.listeners.MovieListener;
-import com.shakiv_husain.disneywatch.models.popular_movie.MovieModel;
+import com.shakiv_husain.disneywatch.models.movie.MovieModel;
 
 import java.util.List;
 

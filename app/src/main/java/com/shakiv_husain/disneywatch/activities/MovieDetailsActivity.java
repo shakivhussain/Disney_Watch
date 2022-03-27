@@ -2,6 +2,7 @@ package com.shakiv_husain.disneywatch.activities;
 
 import static com.shakiv_husain.disneywatch.util.Util.setCurrentSliderIndicator;
 import static com.shakiv_husain.disneywatch.util.constants.AppConstants.ID;
+import static com.shakiv_husain.disneywatch.util.constants.AppConstants.MOVIE_MODEL;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
@@ -25,8 +27,8 @@ import com.shakiv_husain.disneywatch.databinding.ActivityMovieDetailsBinding;
 import com.shakiv_husain.disneywatch.listeners.MovieListener;
 import com.shakiv_husain.disneywatch.models.Video.VideoModel;
 import com.shakiv_husain.disneywatch.models.images.Backdrop;
+import com.shakiv_husain.disneywatch.models.movie.MovieModel;
 import com.shakiv_husain.disneywatch.models.movie_details.MovieDetailsResponse;
-import com.shakiv_husain.disneywatch.models.popular_movie.MovieModel;
 import com.shakiv_husain.disneywatch.util.Util;
 import com.shakiv_husain.disneywatch.viewmodel.MovieDetailsViewModel;
 import com.shakiv_husain.disneywatch.viewmodel.MovieImagesViewModel;
@@ -37,6 +39,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class MovieDetailsActivity extends AppCompatActivity implements MovieListener {
 
     private static final String TAG = MovieDetailsActivity.class.getName();
@@ -44,6 +50,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
     private MovieImagesViewModel movieImagesViewModel;
     private MovieVideosViewModel movieVideosViewModel;
     private MoviesViewModel moviesViewModel;
+    private MovieModel movieModel;
     private ActivityMovieDetailsBinding movieDetailsBinding;
 
     Timer timer;
@@ -62,8 +69,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
 
     private void initialization() {
         String id = "";
-        if (getIntent().hasExtra(ID)) {
-            id = getIntent().getStringExtra(ID);
+        if (getIntent().hasExtra(MOVIE_MODEL)) {
+            movieModel = (MovieModel) getIntent().getSerializableExtra(MOVIE_MODEL);
+            id = String.valueOf(movieModel.id);
             Log.d(TAG, "initialization: " + id);
         }
 
@@ -80,6 +88,22 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
         movieDetailsBinding.backButton.setOnClickListener(view -> {
             onBackPressed();
         });
+
+
+        movieDetailsBinding.addToWatchList.setOnClickListener(view -> {
+
+            new CompositeDisposable().add(movieDetailsViewModel.addToWatchList(movieModel)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(() -> {
+                        movieDetailsBinding.addToWatchList.setImageResource(R.drawable.ic_done);
+                        Toast.makeText(this, "Added To WatchList", Toast.LENGTH_SHORT).show();
+                    })
+
+            );
+        });
+
+        movieDetailsBinding.addToWatchList.setVisibility(View.VISIBLE);
 
         getMovieDetails(id);
         setMovieImages(id);
