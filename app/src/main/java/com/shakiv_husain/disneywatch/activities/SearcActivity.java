@@ -2,6 +2,7 @@ package com.shakiv_husain.disneywatch.activities;
 
 import static com.shakiv_husain.disneywatch.util.constants.AppConstants.ID;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -116,6 +118,12 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
             }
         });
 
+        searcBinding.inputSearch.setOnFocusChangeListener((view, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(view);
+            }
+        });
+
         searcBinding.moviesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -151,6 +159,11 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
         });
 
 
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private void setSearchCollection(String query) {

@@ -53,6 +53,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:fontFamily="@font/ubuntu_bold"
@@ -60,7 +61,7 @@
                     android:includeFontPadding="false"
                     android:text="@string/app_name"
                     android:textColor="@color/colorTextIcon"
-                    android:textSize="@dimen/_24sdp" />
+                    android:textSize="@dimen/_18sdp" />
 
                 <ImageView
                     android:id="@+id/searchIV"

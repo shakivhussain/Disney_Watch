@@ -75,6 +75,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_4sdp"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
                 android:layout_weight="1"
                 android:background="@null"
                 android:drawableStart="@drawable/ic_search_"
@@ -89,7 +91,8 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorTextSecondary"
                 android:textSize="@dimen/_13sdp"
-                app:drawableTint="@color/colorPrimary" />
+                app:drawableTint="@color/colorPrimary"
+                android:focusable="true" />
 
 
         </com.google.android.material.card.MaterialCardView>
