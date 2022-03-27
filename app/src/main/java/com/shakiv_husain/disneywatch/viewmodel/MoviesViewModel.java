@@ -32,7 +32,12 @@ public class MoviesViewModel extends ViewModel {
     }
 
 
-    public LiveData<MoviesResponse> getTopRated(int page){
+    public LiveData<MoviesResponse> getTopRated(int page) {
         return moviesRepository.getTopRated(page);
+    }
+
+
+    public LiveData<MoviesResponse> searchMovies(int page, String query) {
+        return moviesRepository.searchMovies(page, query);
     }
 }

@@ -12,6 +12,9 @@ public class ApiConstants {
 
     public static final String API_KEY_ = "api_key";
     public static final String PAGE = "page";
+    public static final String QUERY = "query";
+
+
     public static final String POPULAR_MOVIES = "movie/popular";
     public static final String UPCOMING_MOVIES = "movie/upcoming";
     public static final String TOP_RATED_MOVIES = "movie/top_rated";
@@ -20,5 +23,9 @@ public class ApiConstants {
     public static final String IMAGES = "movie/{movie_id}/images";
     public static final String VIDEOS = "movie/{movie_id}/videos";
     public static final String SIMILAR = "movie/{movie_id}/similar";
+
+    // Search
+    public static final String SEARCH_MOVIES = "search/movie";
+    public static final String SEARCH_TV_SHOWS = "search/tv";
 
 }
