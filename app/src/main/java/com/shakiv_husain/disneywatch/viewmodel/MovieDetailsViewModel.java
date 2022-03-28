@@ -12,6 +12,7 @@ import com.shakiv_husain.disneywatch.models.movie_details.MovieDetailsResponse;
 import com.shakiv_husain.disneywatch.repositories.MovieDetailsRepository;
 
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 
 public class MovieDetailsViewModel extends AndroidViewModel {
 
@@ -30,6 +31,16 @@ public class MovieDetailsViewModel extends AndroidViewModel {
 
     public Completable addToWatchList(MovieModel movieModel) {
         return movieDatabase.getMovieDao().addToWatchList(movieModel);
+    }
+
+
+    public Flowable<MovieModel> getMovieFromWatchList(String movieId) {
+        return movieDatabase.getMovieDao().getMoviesFromWatchList(movieId);
+    }
+
+
+    public Completable removeMovieFromWatchList(MovieModel movie) {
+        return movieDatabase.getMovieDao().removeFromWatchList(movie);
     }
 
 }

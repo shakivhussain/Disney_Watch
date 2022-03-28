@@ -31,7 +31,6 @@
             app:layout_constraintTop_toTopOf="@id/tvTitle" />
 
 
-
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie_anim"
             android:layout_width="@dimen/_70sdp"
@@ -39,8 +38,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/imageMovie"
             app:layout_constraintEnd_toEndOf="@+id/imageMovie"
             app:layout_constraintStart_toStartOf="@+id/imageMovie"
-            app:lottie_loop="true"
             app:lottie_autoPlay="true"
+            app:lottie_loop="true"
             app:lottie_rawRes="@raw/dot_loading" />
 
         <com.makeramen.roundedimageview.RoundedImageView
@@ -54,9 +53,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:riv_corner_radius="@dimen/_4sdp"
             tools:src="@mipmap/ic_launcher" />
-
-
-
 
 
         <TextView
@@ -134,6 +130,19 @@
             app:layout_constraintTop_toBottomOf="@id/tvRating"
             tools:text=" 1234" />
 
+
+        <ImageView
+            android:id="@+id/imageDelte"
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_delete"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@android:color/holo_red_light" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

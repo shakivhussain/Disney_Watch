@@ -22,8 +22,11 @@ public interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable addToWatchList(MovieModel tvshow);
 
-
     @Delete
-    void removeFromWatchList(MovieModel movieModel);
+    Completable removeFromWatchList(MovieModel movieModel);
+
+
+    @Query("SELECT * FROM movie_model WHERE id = :movieId ")
+    Flowable<MovieModel> getMoviesFromWatchList(String movieId);
 
 }

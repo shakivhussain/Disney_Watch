@@ -10,6 +10,7 @@ import com.shakiv_husain.disneywatch.models.movie.MovieModel;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 
 public class WatchListViewModel extends AndroidViewModel {
@@ -25,4 +26,7 @@ public class WatchListViewModel extends AndroidViewModel {
         return movieDatabase.getMovieDao().getWatchList();
     }
 
+    public Completable removeMovieFromWatchList(MovieModel movie) {
+        return movieDatabase.getMovieDao().removeFromWatchList(movie);
+    }
 }

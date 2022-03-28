@@ -2,6 +2,7 @@ package com.shakiv_husain.disneywatch.activities;
 
 import static com.shakiv_husain.disneywatch.util.Util.setCurrentSliderIndicator;
 import static com.shakiv_husain.disneywatch.util.constants.AppConstants.ID;
+import static com.shakiv_husain.disneywatch.util.constants.AppConstants.IS_WATCHLIST_UPDATED;
 import static com.shakiv_husain.disneywatch.util.constants.AppConstants.MOVIE_MODEL;
 
 import android.content.Intent;
@@ -52,6 +53,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
     private MoviesViewModel moviesViewModel;
     private MovieModel movieModel;
     private ActivityMovieDetailsBinding movieDetailsBinding;
+    private boolean isMovieAvailableInWatchList;
 
     Timer timer;
     final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
@@ -67,6 +69,21 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
 
     }
 
+
+    private void checkMovieInWatchList() {
+
+        CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+        compositeDisposable.add(movieDetailsViewModel.getMovieFromWatchList(String.valueOf(movieModel.getId())).subscribeOn(Schedulers.computation()).
+                observeOn(AndroidSchedulers.mainThread())
+                .subscribe(movie -> {
+                    isMovieAvailableInWatchList = true;
+                    movieDetailsBinding.addToWatchList.setImageResource(R.drawable.ic_done);
+                    compositeDisposable.dispose();
+                }));
+
+    }
+
     private void initialization() {
         String id = "";
         if (getIntent().hasExtra(MOVIE_MODEL)) {
@@ -75,12 +92,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
             Log.d(TAG, "initialization: " + id);
         }
 
+
         // View Model
         movieDetailsViewModel = new ViewModelProvider(this).get(MovieDetailsViewModel.class);
         movieImagesViewModel = new ViewModelProvider(this).get(MovieImagesViewModel.class);
         movieVideosViewModel = new ViewModelProvider(this).get(MovieVideosViewModel.class);
         moviesViewModel = new ViewModelProvider(this).get(MoviesViewModel.class);
-
 
         // Time Initialize
         timer = new Timer(); // This will create a new Thread
@@ -88,7 +105,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
         movieDetailsBinding.backButton.setOnClickListener(view -> {
             onBackPressed();
         });
-
 
         movieDetailsBinding.addToWatchList.setOnClickListener(view -> {
 
@@ -102,8 +118,50 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
 
             );
         });
-
         movieDetailsBinding.addToWatchList.setVisibility(View.VISIBLE);
+
+
+        movieDetailsBinding.addToWatchList.setOnClickListener(view -> {
+
+            CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+            if (isMovieAvailableInWatchList) {
+                compositeDisposable.add(movieDetailsViewModel.removeMovieFromWatchList(movieModel)
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(() -> {
+
+                            IS_WATCHLIST_UPDATED = true;
+                            isMovieAvailableInWatchList = false;
+                            movieDetailsBinding.addToWatchList.setImageResource(R.drawable.ic_watch_list);
+                            Toast.makeText(MovieDetailsActivity.this, "Removed From Watch List", Toast.LENGTH_SHORT).show();
+                            compositeDisposable.dispose();
+
+                        })
+                );
+            } else {
+
+                compositeDisposable.add(movieDetailsViewModel.addToWatchList(movieModel)
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(() -> {
+
+                            IS_WATCHLIST_UPDATED = true;
+                            isMovieAvailableInWatchList = true;
+                            movieDetailsBinding.addToWatchList.setImageResource(R.drawable.ic_done);
+                            Toast.makeText(this, "Added To Watchlist", Toast.LENGTH_SHORT).show();
+                            compositeDisposable.dispose();
+                        })
+                );
+
+
+            }
+
+
+        });
+
+        checkMovieInWatchList();
+
 
         getMovieDetails(id);
         setMovieImages(id);
