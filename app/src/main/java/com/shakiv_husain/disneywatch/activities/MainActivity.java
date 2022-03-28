@@ -70,13 +70,17 @@ public class MainActivity extends AppCompatActivity implements MovieListener {
         movieList = new ArrayList<>();
         movieAdapter = new MovieAdapter(this, movieList);
 
-        activityMainBinding.searchIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), SearcActivity.class));
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            }
+        activityMainBinding.searchIV.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), SearcActivity.class));
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         });
+
+
+        activityMainBinding.watchListIV.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), WatchListActivity.class));
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        });
+
         activityMainBinding.mainRecyclerIew.setHasFixedSize(true);
         activityMainBinding.mainRecyclerIew.setAdapter(movieAdapter);
         activityMainBinding.mainRecyclerIew.addOnScrollListener(new RecyclerView.OnScrollListener() {

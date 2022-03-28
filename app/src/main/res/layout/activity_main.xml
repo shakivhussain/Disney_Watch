@@ -64,6 +64,16 @@
                     android:textSize="@dimen/_18sdp" />
 
                 <ImageView
+                    android:id="@+id/watchListIV"
+                    android:layout_width="@dimen/_28sdp"
+                    android:layout_height="@dimen/_28sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/_2sdp"
+                    android:src="@drawable/ic_watch_list"
+                    app:tint="@color/colorTextIcon" />
+
+                <ImageView
                     android:id="@+id/searchIV"
                     android:layout_width="@dimen/_28sdp"
                     android:layout_height="@dimen/_28sdp"
