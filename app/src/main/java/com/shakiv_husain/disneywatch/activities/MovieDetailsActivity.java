@@ -74,18 +74,23 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
 
         CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-        compositeDisposable.add(movieDetailsViewModel.getMovieFromWatchList(String.valueOf(movieModel.getId())).subscribeOn(Schedulers.computation()).
-                observeOn(AndroidSchedulers.mainThread())
-                .subscribe(movie -> {
-                    isMovieAvailableInWatchList = true;
-                    movieDetailsBinding.addToWatchList.setImageResource(R.drawable.ic_done);
-                    compositeDisposable.dispose();
-                }));
+        try {
+            compositeDisposable.add(movieDetailsViewModel.getMovieFromWatchList(String.valueOf(movieModel.getId())).subscribeOn(Schedulers.computation()).
+                    observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(movie -> {
+                        isMovieAvailableInWatchList = true;
+                        movieDetailsBinding.addToWatchList.setImageResource(R.drawable.ic_done);
+                        compositeDisposable.dispose();
+                    }));
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initialization() {
         String id = "";
+        movieModel = null;
         if (getIntent().hasExtra(MOVIE_MODEL)) {
             movieModel = (MovieModel) getIntent().getSerializableExtra(MOVIE_MODEL);
             id = String.valueOf(movieModel.id);

@@ -45,6 +45,10 @@ public class WatchListActivity extends AppCompatActivity implements WatchListLis
 
     private void initialization() {
 
+        activityWatchListBinding.imageBack.setOnClickListener(view -> {
+            onBackPressed();
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        });
 
         watchListViewModel = new ViewModelProvider(this).get(WatchListViewModel.class);
         movieModelList = new ArrayList<>();

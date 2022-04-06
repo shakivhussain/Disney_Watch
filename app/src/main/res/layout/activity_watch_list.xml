@@ -63,11 +63,20 @@
             android:clipToPadding="false"
             android:orientation="vertical"
             android:padding="@dimen/_4sdp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layoutHeader" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageBg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            android:src="@drawable/ic_watchlist_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/progress_circularBar"

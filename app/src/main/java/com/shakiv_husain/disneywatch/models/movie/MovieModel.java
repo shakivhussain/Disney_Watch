@@ -14,7 +14,7 @@ public class MovieModel implements Serializable {
     @SerializedName("id")
     @Expose
     @PrimaryKey
-    public int id ;
+    public Integer id ;
     @SerializedName("adult")
     @Expose
     public boolean adult;
@@ -68,7 +68,7 @@ public class MovieModel implements Serializable {
 //        return genreIds;
 //    }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

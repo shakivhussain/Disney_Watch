@@ -1,6 +1,7 @@
 package com.shakiv_husain.disneywatch.activities;
 
 import static com.shakiv_husain.disneywatch.util.constants.AppConstants.ID;
+import static com.shakiv_husain.disneywatch.util.constants.AppConstants.MOVIE_MODEL;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -232,7 +233,7 @@ public class SearcActivity extends AppCompatActivity implements MovieListener {
     @Override
     public void onTvShowClicked(MovieModel movieModel) {
         Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
-        intent.putExtra(ID, movieModel.getId());
+        intent.putExtra(MOVIE_MODEL, movieModel);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }

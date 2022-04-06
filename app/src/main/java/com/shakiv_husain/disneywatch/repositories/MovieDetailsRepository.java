@@ -35,7 +35,7 @@ public class MovieDetailsRepository {
                 if (response.isSuccessful()) {
                     movieDetailsResponseMutableLiveData.postValue(response.body());
                 } else {
-                    Log.e(TAG, "Error" + response.errorBody());
+                    Log.e(TAG, "Error " + response.toString());
                     movieDetailsResponseMutableLiveData.postValue(null);
                 }
                 Log.d(TAG, "Api : " + call.request().url());
