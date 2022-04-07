@@ -120,10 +120,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
                         movieDetailsBinding.addToWatchList.setImageResource(R.drawable.ic_done);
                         Toast.makeText(this, "Added To WatchList", Toast.LENGTH_SHORT).show();
                     })
-
             );
         });
-        movieDetailsBinding.addToWatchList.setVisibility(View.VISIBLE);
 
 
         movieDetailsBinding.addToWatchList.setOnClickListener(view -> {
@@ -324,6 +322,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
         movieDetailsBinding.divider2.setVisibility(View.VISIBLE);
         movieDetailsBinding.tvDescription.setVisibility(View.VISIBLE);
         movieDetailsBinding.tvReadMore.setVisibility(View.VISIBLE);
+        movieDetailsBinding.addToWatchList.setVisibility(View.VISIBLE);
 
         if (movieDetailsResponse.getPosterPath() != null)
             movieDetailsBinding.setImageUrl(movieDetailsResponse.getPosterPath());
@@ -384,7 +383,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieList
     @Override
     public void onTvShowClicked(MovieModel movieModel) {
         Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
-        intent.putExtra(ID, movieModel.getId());
+        intent.putExtra(MOVIE_MODEL, movieModel);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }

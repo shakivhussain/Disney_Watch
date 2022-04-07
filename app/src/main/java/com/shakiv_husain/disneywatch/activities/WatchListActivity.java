@@ -23,7 +23,6 @@ import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 
 public class WatchListActivity extends AppCompatActivity implements WatchListListener {
@@ -75,6 +74,11 @@ public class WatchListActivity extends AppCompatActivity implements WatchListLis
                         if (movieModels.size() > 0) {
                             movieModelList.clear();
                         }
+                        if (movieModels.size() == 0) {
+                            activityWatchListBinding.imageBg.setVisibility(View.VISIBLE);
+                        } else {
+                            activityWatchListBinding.imageBg.setVisibility(View.GONE);
+                        }
                         activityWatchListBinding.setIsLoading(false);
                         movieModelList.addAll(movieModels);
 
@@ -100,13 +104,13 @@ public class WatchListActivity extends AppCompatActivity implements WatchListLis
 
         CompositeDisposable compositeDisposable = new CompositeDisposable();
         compositeDisposable.add(watchListViewModel.removeMovieFromWatchList(movie).subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        movieModelList.remove(movie);
-                        watchListAdapter.notifyItemRemoved(position);
-                        watchListAdapter.notifyItemRangeChanged(position, watchListAdapter.getItemCount());
-                        compositeDisposable.dispose();
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
+                    movieModelList.remove(movie);
+                    watchListAdapter.notifyItemRemoved(position);
+                    watchListAdapter.notifyItemRangeChanged(position, watchListAdapter.getItemCount());
+                    compositeDisposable.dispose();
+                    if (watchListAdapter.getItemCount() == 0) {
+                        activityWatchListBinding.imageBg.setVisibility(View.VISIBLE);
                     }
                 })
         );
