@@ -12,4 +12,11 @@
     <string name="movies_1000">Movies ( 1000+ )</string>
     <string name="tv_shows_1000">Tv Shows ( 1000+ )</string>
     <string name="collections_1000">Collections ( 1000+ )</string>
+    <string name="sign_up">Sign-Up</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="continue_with_google">Continue With Google</string>
+    <string name="sign_in">Sign-In</string>
 </resources>

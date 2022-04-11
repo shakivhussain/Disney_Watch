@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "271798972734",
+    "project_id": "disney-watch",
+    "storage_bucket": "disney-watch.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271798972734:android:fd53825abff350d508fc6f",
+        "android_client_info": {
+          "package_name": "com.shakiv_husain.disneywatch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271798972734-2q3cses453rs1lctgem6def73rursjcq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shakiv_husain.disneywatch",
+            "certificate_hash": "1a4ed91abf230c155cfabf3d4c46f1f36673273f"
+          }
+        },
+        {
+          "client_id": "271798972734-6se4bqq8v2jb26878ti6qfi5ojel3e3m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkzeN14rBQyki9x7rdEhjFrpIhRNYH2jo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "271798972734-6se4bqq8v2jb26878ti6qfi5ojel3e3m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

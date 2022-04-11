@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -79,5 +80,7 @@ dependencies {
     // Youtube
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:11.0.1'
 
+    // Firebase
+    implementation 'com.google.firebase:firebase-auth:21.0.3'
 
 }
