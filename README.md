@@ -34,36 +34,6 @@ This project follows the famous MVVM architecture and best practices from Google
 
 ![architecture](Assets/mvvm_architecture.png)
 
-## Project Structure 📂
-
-```
-.
-├── data
-|   |
-|   ├── api
-|   |   ├── constants
-|   |   |            └── ApiConstants.java
-|   |   └── network
-|   |              ├── ApiClient.java
-|   |              └──  ApiServices.java
-│   ├── model
-│   │   ├── User.java
-│   └── repository
-│       └── UserRepository.java
-├── ui
-│   ├── adapter
-│   |   ├── UserAdapter.java
-│   ├── fragment
-│   |   ├── HomeFragment.java
-│   ├── activities
-│   |   └── MainActivity.java
-│   ├── viewmodel
-│   |   ├── AppViewModel.java
-└── utils
-        └── AppConstant.java 
-    
-```
-
 ## Requirements 🎯 
 - Android 6.0 and Above
 - Min sdk version 23
